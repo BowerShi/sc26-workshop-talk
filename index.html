@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=102">
+<link rel="stylesheet" href="deck.css?v=103">
 </head>
 <body>
 <div id="stage">
@@ -244,7 +244,7 @@
     <h1>Ultra-fast, high-fidelity waveform simulation of earthquake–tsunami events</h1>
     <ol class="take">
       <li><b>Linear time-invariant structure</b> of seismic and tsunami wave propagation: two block Toeplitz matvecs.</li>
-      <li><b>Forward solves</b> for the earthquake, with layered-Earth Green’s functions. <b>Adjoint solves</b> for the tsunami.</li>
+      <li><b>Offline PDE solves:</b> forward for the earthquake, with layered-Earth Green’s functions; adjoint for the tsunami.</li>
       <li><b>FFT-based multi-GPU matvec</b>, partitioned only along the seafloor.</li>
       <li><b>10,000 earthquakes in 4 minutes</b> on one NVL72 domain: 64 GB200 GPUs, 9.45 of 11.5 TiB of GPU memory in use. 20× faster than PyTorch, more than 10,000× faster than PDE solves.</li>
     </ol>
@@ -252,7 +252,7 @@
     <div class="logos3"><img src="assets/UTA_logo_white.svg" alt="The University of Texas at Austin"><img src="assets/OdenInstitutePrimary_white.svg" alt="Oden Institute"><img class="inv" src="assets/optimuslogo.svg" alt="OPTIMUS"></div>
   </div>
   <aside class="notes">
-    Finally, what comes out. This plays by itself; press → to fast-forward.<br><br><b>[fault appears]</b> Under the ocean lies the fault.<br><br><b>[mesh appears]</b> Above it, the seafloor mesh for the tsunami.<br><br><b>[slip]</b> Here is one potential magnitude 9.1 earthquake at the Cascadia Subduction Zone: the slip on the fault.<br><br><b>[seafloor]</b> The slip lifts the seafloor: the output of our first matvec.<br><br><b>[tsunami]</b> And the seafloor lifts the water: the tsunami.<br><br><b>[click: summary]</b> To summarize. One: both wave models are linear and time-invariant, so the whole map is two block Toeplitz matvecs. Two: forward solves for the earthquake, adjoint solves for the tsunami. Three: an FFT-based multi-GPU matvec, partitioned only along the seafloor. Four: 10,000 earthquakes in four minutes on one NVL72 domain, using almost all of its GPU memory.<br><br>Thank you. I am happy to take questions.
+    Finally, what comes out. This plays by itself; press → to fast-forward.<br><br><b>[fault appears]</b> Under the ocean lies the fault.<br><br><b>[mesh appears]</b> Above it, the seafloor mesh for the tsunami.<br><br><b>[slip]</b> Here is one potential magnitude 9.1 earthquake at the Cascadia Subduction Zone: the slip on the fault.<br><br><b>[seafloor]</b> The slip lifts the seafloor: the output of our first matvec.<br><br><b>[tsunami]</b> And the seafloor lifts the water: the tsunami.<br><br><b>[click: summary]</b> To summarize. One: both wave models are linear and time-invariant, so the whole map is two block Toeplitz matvecs. Two: the operators come from offline PDE solves, forward for the earthquake and adjoint for the tsunami. Three: an FFT-based multi-GPU matvec, partitioned only along the seafloor. Four: 10,000 earthquakes in four minutes on one NVL72 domain, using almost all of its GPU memory.<br><br>Thank you. I am happy to take questions.
   </aside>
 </section>
 
@@ -262,7 +262,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=102"></script>
-<script src="scene3d.js?v=102"></script>
+<script src="deck.js?v=103"></script>
+<script src="scene3d.js?v=103"></script>
 </body>
 </html>
