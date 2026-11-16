@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=92">
+<link rel="stylesheet" href="deck.css?v=93">
 </head>
 <body>
 <div id="stage">
@@ -175,18 +175,18 @@
 </section>
 
 <!-- 12 ─────────────────────────────────────────────── SETUP -->
-<section class="slide light" data-steps="3" data-title="Full CSZ setting" data-time="0:35" data-cite="Venkat, Fernando, Henneking, Ghattas, SIAM J. Sci. Comput. 47(5), 2025 (FFTMatvec)">
+<section class="slide light" data-steps="0" data-title="Full CSZ setting" data-time="0:35" data-cite="Venkat, Fernando, Henneking, Ghattas, SIAM J. Sci. Comput. 47(5), 2025 (FFTMatvec)">
   <header><div class="kicker">Experiments</div><h2>Full CSZ setting</h2></header>
   <ul class="bm wide" style="top:262px;font-size:39px">
     <li><b>Problem:</b> the Cascadia Subduction Zone
       <ul class="nums"><li>fault discretized by <b>963</b> triangular subfaults</li><li><b>2,416,530</b> seafloor points, <b>64</b> waveform locations</li><li><b>256</b> time steps, double precision</li><li>the two operators need <b>9.45 TiB</b> of GPU memory</li></ul></li>
-    <li class="st" data-s="1"><b class="cO">Our implementation:</b> C++ and CUDA, FFT-based matrix-vector product (FFTMatvec)</li>
-    <li class="st" data-s="2"><b>Baseline:</b> PyTorch <code>conv_transpose1d</code>, the same convolution in the time domain</li>
-    <li class="st" data-s="3"><b>Machines:</b> TACC Vista, up to 64 GPUs
+    <li><b class="cO">Our implementation:</b> C++ and CUDA, FFT-based matrix-vector product (FFTMatvec)</li>
+    <li><b>Baseline:</b> PyTorch <code>conv_transpose1d</code>, the same convolution in the time domain</li>
+    <li><b>Machines:</b> TACC Vista, up to 64 GPUs
       <ul><li>GH200 partition: 96 GiB per GPU, one GPU per node, InfiniBand</li><li>GB200 partition: 184 GiB per GPU, one NVL72 domain</li></ul></li>
   </ul>
   <aside class="notes">
-    The full Cascadia setting: 963 subfaults, 2.4 million seafloor points, 64 waveform locations, 256 time steps. The two operators need 9.45 tebibytes of GPU memory.<br><br><b>[click]</b> Our implementation is FFTMatvec, in C++ and CUDA.<br><br><b>[click]</b> The baseline is PyTorch's conv-transpose-1d: the same convolution in the time domain.<br><br><b>[click]</b> We run on TACC's Vista, on the GH200 and GB200 partitions, with up to 64 GPUs.
+    The full Cascadia setting: 963 subfaults, 2.4 million seafloor points, 64 waveform locations, 256 time steps. The two operators need 9.45 tebibytes of GPU memory. Our implementation is FFTMatvec, in C++ and CUDA. The baseline is PyTorch's conv-transpose-1d: the same convolution in the time domain. We run on TACC's Vista, on the GH200 and GB200 partitions, with up to 64 GPUs.
   </aside>
 </section>
 
@@ -262,7 +262,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=92"></script>
-<script src="scene3d.js?v=92"></script>
+<script src="deck.js?v=93"></script>
+<script src="scene3d.js?v=93"></script>
 </body>
 </html>
