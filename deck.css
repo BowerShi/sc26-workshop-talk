@@ -462,3 +462,10 @@ canvas.framed.lt{border-radius:14px;box-shadow:0 8px 26px rgba(51,63,72,.15);bac
 .concl h1 .loc3{font-family:var(--sans);font-size:27px;font-weight:500;color:#d5dde1;margin-left:18px;white-space:nowrap}
 
 .concl .affil a{color:inherit;text-decoration:underline;text-underline-offset:5px;pointer-events:auto}
+
+/* phones and tablets */
+html,body{touch-action:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+html,body{height:100dvh}
+#mhint{display:none;position:fixed;left:0;right:0;bottom:calc(22px + env(safe-area-inset-bottom));text-align:center;padding:0 24px;color:#9fb0ba;font:15px/1.45 var(--sans);z-index:25}
+@media (pointer:coarse) and (orientation:portrait){#mhint{display:block}}
+#fitbox{position:fixed;left:0;top:0;width:100vw;height:100dvh;overflow:hidden;contain:strict}

@@ -7,7 +7,8 @@ const main = cv.closest('.slide'), cover = document.querySelector('.slide.cover3
 let slide = main; const hud = id => slide.querySelector('[data-hud="' + id + '"]'), put = (id, s) => { const e = hud(id); if (e) e.textContent = s; };
 const gl = cv.getContext('webgl2', { antialias: true, alpha: false, powerPreference: 'high-performance' });
 if (!gl) { hud('phase').textContent = 'WebGL2 is not available in this browser'; return; }
-cv.width = 2560; cv.height = 1440;
+const SMALL = matchMedia('(pointer: coarse)').matches;      // phones and tablets: a quarter of the pixels
+cv.width = SMALL ? 1280 : 2560; cv.height = SMALL ? 720 : 1440;
 
 const COVER = '013703';                   // the title slide loops this one
 const EVENTS = ['031843'];      // a small one, then a large one (shown next to the conclusions)
@@ -178,7 +179,7 @@ async function init() {
     c2.beginPath(); for (let t = 0; t < nt; t++) for (let k = 0; k < 3; k++) { const v = tri[t * 3 + k]; k ? c2.lineTo(X(fp[v * 3]), Y(fp[v * 3 + 1])) : c2.moveTo(X(fp[v * 3]), Y(fp[v * 3 + 1])); } c2.fill(); c2.stroke();
     texM = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, texM); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mc);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); }
-  await loadEvent(COVER); ready = true;
+  await loadEvent(COVER); ready = true; window.RUP_OK = true;
   loadEvent(EVENTS[0]);
 }
 init().catch(e => { console.error(e); hud('phase').textContent = 'Could not load the rupture data'; });

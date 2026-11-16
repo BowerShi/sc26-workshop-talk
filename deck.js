@@ -22,6 +22,8 @@ slides.forEach((s, i) => {
   $$('canvas[data-scene]', s).forEach(c => { c.width = c.dataset.w * 2; c.height = c.dataset.h * 2; c.style.width = c.dataset.w + 'px'; c.style.height = c.dataset.h + 'px'; });
 });
 
+// A clipping box around the 1920 px stage: without it, phones widen their layout viewport to fit the unscaled stage and show a zoomed-in corner.
+{ const box = document.createElement('div'); box.id = 'fitbox'; stage.parentNode.insertBefore(box, stage); box.appendChild(stage); }
 function fit() { stage.style.transform = `translate(-50%,-50%) scale(${Math.min(innerWidth / 1920, innerHeight / 1080)})`; }
 addEventListener('resize', fit); fit();
 
@@ -39,6 +41,8 @@ function apply() {
   });
   $('#progress i').style.width = (100 * (cur + step / (maxStep(s) + 1)) / (slides.length - 1)) + '%';
   history.replaceState(null, '', '#' + (cur + 1));
+  // if the 3D scene cannot run (no WebGL2, data not loaded), the summary and the announcements still follow the clicks
+  if (!window.RUP_OK && s.classList.contains('scene3d') && !s.classList.contains('cover3d')) s.dataset.concl = step >= 6 ? 1 : 0;
   renderNotes();
 }
 function go(i, st = 0) {
@@ -65,6 +69,14 @@ function onKey(e) {
   else if (k === '?' || k === 'h') $('#help').hidden = !$('#help').hidden;
 }
 addEventListener('keydown', onKey);
+/* touch (phones, tablets): tap the right side = next, the left third = back; swipe left / right does the same. Mouse clicks are left alone. */
+let tp = null;
+addEventListener('pointerdown', e => { tp = e.pointerType === 'mouse' ? null : { x: e.clientX, y: e.clientY }; });
+addEventListener('pointerup', e => { if (!tp || e.pointerType === 'mouse') return; const dx = e.clientX - tp.x, dy = e.clientY - tp.y; tp = null;
+  if (e.target.closest && e.target.closest('a')) return;
+  if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) (dx < 0 ? next : prev)();
+  else if (Math.abs(dx) < 14 && Math.abs(dy) < 14) (e.clientX < innerWidth * 0.3 ? prev : next)(); });
+addEventListener('orientationchange', () => setTimeout(fit, 250));
 
 /* ───────── notes / presenter ───────── */
 const fmt = ms => { const s = Math.max(0, ms / 1000 | 0); return String(s / 60 | 0).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
