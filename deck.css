@@ -167,7 +167,7 @@ table.sys{border-collapse:collapse;width:100%;font-size:30px;margin-top:8px}
 .chart .grid{stroke:#e2ddd0;stroke-width:1.5}
 .chart .axis{stroke:var(--charcoal);stroke-width:2}
 .chart path.ln{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
-.chart .fft{opacity:0;transition:opacity .8s}
+.chart .fft{opacity:1}
 .slide.s1 .chart .fft{opacity:1}
 .chartlegend{left:90px;top:262px;width:1740px;display:flex;gap:44px;font-size:24px;color:var(--charcoal);align-items:center}
 .chartlegend i.l{display:inline-block;width:54px;height:0;border-top:5px solid;vertical-align:middle;margin-right:10px}

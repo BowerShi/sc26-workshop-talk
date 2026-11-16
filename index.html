@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=94">
+<link rel="stylesheet" href="deck.css?v=95">
 </head>
 <body>
 <div id="stage">
@@ -191,7 +191,7 @@
 </section>
 
 <!-- 13 ─────────────────────────────────────────────── SCALING -->
-<section class="slide light" data-steps="1" data-title="Scaling results" data-time="0:20">
+<section class="slide light" data-steps="0" data-title="Scaling results" data-time="0:20">
   <header><div class="kicker">Results: scaling</div><h2>Strong and weak scaling up to 64 GPUs</h2></header>
   <div class="chartlegend">
     <span><i class="l o"></i>GB200 FFTMatvec</span><span><i class="l b"></i>GH200 FFTMatvec</span>
@@ -199,10 +199,10 @@
   </div>
   <div id="chartStrong" class="chart" style="left:90px;top:330px"></div>
   <div id="chartWeak" class="chart" style="left:1000px;top:330px"></div>
-  <div class="chartcap" style="left:90px"><b>Strong scaling.</b> 60 subfaults, 4 outputs, full 2.4 M seafloor grid.<span class="st" data-s="1"> Efficiency at 64 GPUs: <b class="cO">85%</b> and <b class="cB">81%</b>.</span></div>
-  <div class="chartcap" style="left:1000px"><b>Weak scaling.</b> 480 subfaults, 32 outputs, 37,758 seafloor points per GPU.<span class="st" data-s="1"> Efficiency at 64 GPUs: <b class="cO">95.8%</b> and <b class="cB">95.1%</b>.</span></div>
+  <div class="chartcap" style="left:90px"><b>Strong scaling.</b> 60 subfaults, 4 outputs, full 2.4 M seafloor grid.<span> Efficiency at 64 GPUs: <b class="cO">85%</b> and <b class="cB">81%</b>.</span></div>
+  <div class="chartcap" style="left:1000px"><b>Weak scaling.</b> 480 subfaults, 32 outputs, 37,758 seafloor points per GPU.<span> Efficiency at 64 GPUs: <b class="cO">95.8%</b> and <b class="cB">95.1%</b>.</span></div>
   <aside class="notes">
-    We scale our results up to 64 GPUs, on both GH200 and GB200.<br><br><b>[click]</b> Strong scaling efficiency is above 80 percent, weak scaling about 95 percent, and FFTMatvec stays well below the PyTorch baseline everywhere.
+    We scale our results up to 64 GPUs, on both GH200 and GB200. Strong scaling efficiency is above 80 percent, weak scaling about 95 percent, and FFTMatvec stays well below the PyTorch baseline everywhere.
   </aside>
 </section>
 
@@ -262,7 +262,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=94"></script>
-<script src="scene3d.js?v=94"></script>
+<script src="deck.js?v=95"></script>
+<script src="scene3d.js?v=95"></script>
 </body>
 </html>
