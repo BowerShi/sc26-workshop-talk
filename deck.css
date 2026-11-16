@@ -440,3 +440,5 @@ canvas.framed.lt{border-radius:14px;box-shadow:0 8px 26px rgba(51,63,72,.15);bac
 .eqleg2{font-size:34px;color:#4a555d;margin-top:26px;line-height:1.5;text-align:center}
 .eqleg2 b.mx{color:var(--charcoal);font-size:38px}
 .cite3{position:absolute;right:90px;bottom:18px;z-index:4;font-family:var(--sans);font-size:21px;color:rgba(255,255,255,.62);text-shadow:0 1px 8px rgba(0,0,0,.9)}
+
+.vbar label{white-space:pre-line;text-align:right;line-height:1.2}

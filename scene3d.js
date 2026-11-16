@@ -272,7 +272,7 @@ function frame(now) {
     put('title', 'Potential magnitude ' + E.mw.toFixed(1) + ' earthquake at the Cascadia Subduction Zone');
     put('phase', CAP[vs]); put('tag', 'Potential magnitude ' + E.mw.toFixed(1) + ' earthquake\nat the Cascadia Subduction Zone'); slide.dataset.concl = st >= 6 ? 1 : 0;
     slide.dataset.cb = ['', 'dp', '', 'cs', 'sf', 'ts'][vs]; slide.dataset.phase = vs;
-    const [lab, hi, mid, lo] = vs === 3 ? ['Slip (m)', csC, csC / 2, 0] : vs === 4 ? ['Displacement (m)', '+' + sfC, 0, '−' + sfC] : vs === 5 ? ['Wave height (m)', '+' + tsC, 0, '−' + tsC] : vs === 1 ? ['Depth (km)', 6, 18, 30] : ['', '', '', ''];
+    const [lab, hi, mid, lo] = vs === 3 ? ['Slip (m)', csC, csC / 2, 0] : vs === 4 ? ['Vertical seafloor\ndisplacement (m)', '+' + sfC, 0, '−' + sfC] : vs === 5 ? ['Wave height (m)', '+' + tsC, 0, '−' + tsC] : vs === 1 ? ['Depth (km)', 6, 18, 30] : ['', '', '', ''];
     if (lab) { put('cbl', lab); put('cb2', hi); put('cb1', mid); put('cb0', lo); } }
 }
 requestAnimationFrame(frame);
