@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=85">
+<link rel="stylesheet" href="deck.css?v=86">
 </head>
 <body>
 <div id="stage">
@@ -122,10 +122,10 @@
     <li class="st" data-s="1"><b class="mx cO">A</b>, <b class="mx cO">B</b>, <b class="mx cO">C</b> do not change with time: the system is linear time-invariant (LTI)</li>
     <li class="st" data-s="2">So the output is a convolution of the input with the impulse responses <b class="mx">F</b><sub class="mxs">k</sub></li>
   </ul>
-  <div class="eqc st" data-s="2" style="top:728px"><img class="tex" src="assets/eq/conv.svg?v=3" alt="" style="width:438px;height:150px;"></div>
+  <div class="eqc st" data-s="2" style="top:728px"><img class="tex" src="assets/eq/conv2.svg?v=1" alt="" style="width:1010px;height:150px;"></div>
   <ul class="bm wide one st" data-s="3" style="top:915px;font-size:40px"><li class="goal">Compute the impulse responses <b class="mx">F</b><sub class="mxs">k</sub> once. Reuse them for every earthquake</li></ul>
   <aside class="notes">
-    Here is the structure. Both models can be written as this abstract dynamical system. In the tsunami simulation, f is the normal velocity of the seafloor, and x is the acoustic-gravity state: velocity and pressure in the ocean. In the earthquake simulation, f is the earthquake source, the slip rate on the fault, and x is the seismic wave field. y is the output.<br><br><b>[click]</b> The key point: the operators A, B and C do not change with time. The system is linear and time-invariant.<br><br><b>[click]</b> For such a system, the output is a convolution of the input with the impulse responses F k. F k is the response at time step k to a unit impulse at time zero. If I shift the source in time, the response just shifts with it.<br><br><b>[click]</b> So we compute the impulse responses once, and reuse them for every earthquake.
+    Here is the structure. Both models can be written as this abstract dynamical system. In the tsunami simulation, f is the normal velocity of the seafloor, and x is the acoustic-gravity state: velocity and pressure in the ocean. In the earthquake simulation, f is the earthquake source, the slip rate on the fault, and x is the seismic wave field. y is the output.<br><br><b>[click]</b> The key point: the operators A, B and C do not change with time. The system is linear and time-invariant.<br><br><b>[click]</b> For such a system, the output is a convolution of the input with the impulse responses F k. F k has an explicit form: C times the matrix exponential of A at time t k, times B. It is the response at time step k to a unit impulse at time zero. If I shift the source in time, the response just shifts with it.<br><br><b>[click]</b> So we compute the impulse responses once, and reuse them for every earthquake.
   </aside>
 </section>
 
@@ -262,7 +262,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=85"></script>
-<script src="scene3d.js?v=85"></script>
+<script src="deck.js?v=86"></script>
+<script src="scene3d.js?v=86"></script>
 </body>
 </html>
