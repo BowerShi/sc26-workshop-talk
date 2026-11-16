@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=110">
+<link rel="stylesheet" href="deck.css?v=111">
 </head>
 <body>
 <div id="stage">
@@ -28,17 +28,17 @@
 
 
 <!-- 2 ─────────────────────────────────────────────── BIG ONE -->
-<section class="slide light" data-steps="3" data-title="The Big One" data-time="0:40" data-cite="U.S. Geological Survey, Fact Sheet 2025–3050: Earthquake probabilities and hazards in the U.S. Pacific Northwest">
+<section class="slide light" data-steps="0" data-title="The Big One" data-time="0:40" data-cite="U.S. Geological Survey, Fact Sheet 2025–3050: Earthquake probabilities and hazards in the U.S. Pacific Northwest">
   <figure class="mapfig"><img src="assets/fault_mesh.jpg" alt="Cascadia fault mesh"><figcaption>The Cascadia fault interface, colored by depth</figcaption></figure>
   <div class="rightcol" style="left:860px;width:970px;top:96px">
     <div class="kicker">Problem formulation</div>
     <h2>“The Big One”:<br>the Cascadia Subduction Zone</h2>
     <ul class="bm" style="margin-top:44px;font-size:40px">
       <li>A 1,000 km fault just off the Pacific Northwest coast</li>
-      <li class="st" data-s="1">Last great earthquake: January 1700. Silent for 326 years
+      <li>Last great earthquake: January 1700. Silent for 326 years
         <ul><li>about a 10 to 15% chance of a magnitude 9 in the next 50 years</li></ul></li>
-      <li class="st" data-s="2">The tsunami reaches the coast within minutes</li>
-      <li class="st goal" data-s="3"><b>Tsunami early warning</b> aims to forecast the tsunami in real time, from pressure sensors on the seafloor</li>
+      <li>The tsunami reaches the coast within minutes</li>
+      <li class="goal"><b>Tsunami early warning</b> aims to forecast the tsunami in real time, from pressure sensors on the seafloor</li>
     </ul>
   </div>
 </section>
@@ -69,43 +69,43 @@
 </section>
 
 <!-- 5 ─────────────────────────────────────────────── WHY DATA -->
-<section class="slide light" data-steps="3" data-title="Why we need data" data-time="0:40" data-cite="Henneking et al., SC ’25 (2025 ACM Gordon Bell Prize) &nbsp;·&nbsp; Henneking, Venkat, Ghattas, J. Comput. Phys. 552, 2026 &nbsp;·&nbsp; Melgar, LeVeque, Dreger, Allen, JGR Solid Earth 121, 2016 (FakeQuakes)">
+<section class="slide light" data-steps="0" data-title="Why we need data" data-time="0:40" data-cite="Henneking et al., SC ’25 (2025 ACM Gordon Bell Prize) &nbsp;·&nbsp; Henneking, Venkat, Ghattas, J. Comput. Phys. 552, 2026 &nbsp;·&nbsp; Melgar, LeVeque, Dreger, Allen, JGR Solid Earth 121, 2016 (FakeQuakes)">
   <header><div class="kicker">Motivation</div><h2>Beyond Gaussian forecasts, we need data</h2></header>
   <ul class="bm wide" style="top:290px">
     <li><b>2025 Gordon Bell Prize:</b> a real-time tsunami forecast for Cascadia, from seafloor pressure sensors
       <ul><li>based on a Gaussian prior: fast and exact, but limited to Gaussian settings</li></ul></li>
-    <li class="st" data-s="1">Machine learning can go beyond Gaussian, but it needs training data</li>
-    <li class="st" data-s="2">No recorded data: the last great earthquake in Cascadia was in 1700
+    <li>Machine learning can go beyond Gaussian, but it needs training data</li>
+    <li>No recorded data: the last great earthquake in Cascadia was in 1700
       <ul><li>the data must be simulated: stochastic earthquake sources from FakeQuakes</li></ul></li>
-    <li class="st goal" data-s="3">We need 10<sup>4</sup> to 10<sup>6</sup> earthquakes, each with its corresponding tsunami waveforms</li>
+    <li class="goal">We need 10<sup>4</sup> to 10<sup>6</sup> earthquakes, each with its corresponding tsunami waveforms</li>
   </ul>
 </section>
 
 <!-- 6 ─────────────────────────────────────────────── WHY HARD -->
-<section class="slide light" data-steps="3" data-title="The challenge" data-time="0:50" data-cite="Henneking et al., SC ’25 (2025 ACM Gordon Bell Prize)">
+<section class="slide light" data-steps="0" data-title="The challenge" data-time="0:50" data-cite="Henneking et al., SC ’25 (2025 ACM Gordon Bell Prize)">
   <header><div class="kicker">The challenge</div><h2>Large-scale high-fidelity simulation is expensive</h2></header>
   <ul class="bm wide" style="top:280px;font-size:40px">
     <li>Both simulations, earthquake and tsunami, are very expensive
       <ul><li>example, tsunami: a mesh of <b>14,473,092</b> hexahedral elements</li><li>one ocean simulation takes about <b>1 hour on 512 A100 GPUs</b></li></ul></li>
-    <li class="st" data-s="1">For one earthquake, the seafloor motion alone has <b>618 million</b> unknowns</li>
+    <li>For one earthquake, the seafloor motion alone has <b>618 million</b> unknowns</li>
   </ul>
-  <div class="question st" data-s="2" style="top:690px;font-size:54px;padding:26px 0">How can we generate a large amount of high-fidelity data?</div>
-  <ul class="bm wide one st" data-s="3" style="top:860px;font-size:38px"><li class="goal"><b>Our solution:</b> exploit the linear time-invariant structure, with high-performance multi-GPU computing. The operators are computed offline and stay resident in GPU memory</li></ul>
+  <div class="question" style="top:690px;font-size:54px;padding:26px 0">How can we generate a large amount of high-fidelity data?</div>
+  <ul class="bm wide one" style="top:860px;font-size:38px"><li class="goal"><b>Our solution:</b> exploit the linear time-invariant structure, with high-performance multi-GPU computing. The operators are computed offline and stay resident in GPU memory</li></ul>
 </section>
 
 <!-- 7 ─────────────────────────────────────────────── LTI -->
-<section class="slide light" data-steps="3" data-title="Linear time-invariant" data-time="0:50">
+<section class="slide light" data-steps="0" data-title="Linear time-invariant" data-time="0:50">
   <header><div class="kicker">Structure · 1</div><h2>Both wave models are linear and time-invariant</h2></header>
   <div class="eqbox" style="top:262px;padding:30px 40px 24px">
     <img class="tex" src="assets/eq/lti.svg?v=3" alt="" style="width:971px;height:50px;">
     <div class="eqleg2"><div><b class="cT">Tsunami:</b> &nbsp;<b class="mx">f</b> = normal seafloor velocity, &nbsp;<b class="mx">x</b> = acoustic–gravity state (velocity and pressure)</div><div><b class="cO">Earthquake:</b> &nbsp;<b class="mx">f</b> = earthquake source (slip rate), &nbsp;<b class="mx">x</b> = seismic wave field</div></div>
   </div>
   <ul class="bm wide" style="top:560px;font-size:40px">
-    <li class="st" data-s="1"><b class="mx cO">A</b>, <b class="mx cO">B</b>, <b class="mx cO">C</b> do not change with time: the system is linear time-invariant (LTI)</li>
-    <li class="st" data-s="2">So the output is a convolution of the input with the impulse responses <b class="mx">F</b><sub class="mxs">k</sub></li>
+    <li><b class="mx cO">A</b>, <b class="mx cO">B</b>, <b class="mx cO">C</b> do not change with time: the system is linear time-invariant (LTI)</li>
+    <li>So the output is a convolution of the input with the impulse responses <b class="mx">F</b><sub class="mxs">k</sub></li>
   </ul>
-  <div class="eqc st" data-s="2" style="top:728px"><img class="tex" src="assets/eq/conv2.svg?v=1" alt="" style="width:1010px;height:150px;"></div>
-  <ul class="bm wide one st" data-s="3" style="top:915px;font-size:40px"><li class="goal">Compute the impulse responses <b class="mx">F</b><sub class="mxs">k</sub> once. Reuse them for every earthquake</li></ul>
+  <div class="eqc" style="top:728px"><img class="tex" src="assets/eq/conv2.svg?v=1" alt="" style="width:1010px;height:150px;"></div>
+  <ul class="bm wide one" style="top:915px;font-size:40px"><li class="goal">Compute the impulse responses <b class="mx">F</b><sub class="mxs">k</sub> once. Reuse them for every earthquake</li></ul>
 </section>
 
 <!-- 8 ─────────────────────────────────────────────── TOEPLITZ -->
@@ -130,13 +130,13 @@
 </section>
 
 <!-- 11 ─────────────────────────────────────────────── FORMING -->
-<section class="slide light" data-steps="2" data-title="Computing the two operators offline" data-time="0:35" data-cite="Henneking, Venkat, Ghattas, J. Comput. Phys. 552, 2026 (adjoints) &nbsp;·&nbsp; Zhu, Rivera, Geophys. J. Int. 148, 2002 (frequency–wavenumber)">
+<section class="slide light" data-steps="0" data-title="Computing the two operators offline" data-time="0:35" data-cite="Henneking, Venkat, Ghattas, J. Comput. Phys. 552, 2026 (adjoints) &nbsp;·&nbsp; Zhu, Rivera, Geophys. J. Int. 148, 2002 (frequency–wavenumber)">
   <header><div class="kicker">Offline, once</div><h2>Computing two Toeplitz operators offline</h2></header>
   <ul class="bm wide" style="top:300px">
     <li>2.4 million seafloor points, but only 963 fault patches and 64 waveforms</li>
-    <li class="st" data-s="1"><b class="cT">Tsunami operator:</b> adjoint solves, one per waveform, 64 in total
+    <li><b class="cT">Tsunami operator:</b> adjoint solves, one per waveform, 64 in total
       <ul><li>forward solves would mean 2.4 million tsunami solves</li></ul></li>
-    <li class="st" data-s="2"><b class="cO">Earthquake operator:</b> frequency–wavenumber method for a layered Earth, accelerated on GPUs
+    <li><b class="cO">Earthquake operator:</b> frequency–wavenumber method for a layered Earth, accelerated on GPUs
       <ul><li>one impulse at a fault patch gives the Green’s functions at all seafloor points</li></ul></li>
   </ul>
 </section>
@@ -239,7 +239,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=110"></script>
-<script src="scene3d.js?v=110"></script>
+<script src="deck.js?v=111"></script>
+<script src="scene3d.js?v=111"></script>
 </body>
 </html>
