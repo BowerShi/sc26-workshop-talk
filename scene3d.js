@@ -191,6 +191,7 @@ const END = [4.8, 7, 6, DUR_R + HOLD, DUR_R + HOLD, DUR_T + HOLD, 1e9];   // eve
 const AZ0 = 4.42, AMP = 0.24, SWEEP = 100;                  // camera over the ocean to the south-south-west, looking north along the margin
 let tIn = 0, st = 0, tl = 0, fresh = true, curId = EVENTS[0], evFade = 1, tCam = 0, last = performance.now(), lastHud = '';
 const A = { open: 0, hi: 0, bathy: 0, wire: 0, slip: 0, dim: 0, show: 0, water: 0, depth: 0, concl: 0 };
+const AV = {};
 const nice = v => v >= 10 ? Math.round(v / 5) * 5 : v >= 2 ? Math.round(v) : v >= 1 ? Math.round(v * 2) / 2 : Math.round(v * 10) / 10;
 const CAP = ['', 'The fault, buried 6 to 30 km deep', 'The seafloor: computational mesh for the tsunami', 'Slip on the fault', 'The slip lifts the seafloor', 'The seafloor lifts the water: tsunami'];
 function frame(now) {
@@ -200,7 +201,7 @@ function frame(now) {
   if (!host || !ready) { fresh = true; return; }
   if (slide !== host) { slide = host; host.insertBefore(cv, host.firstChild); fresh = true; lastHud = ''; }
   const isC = host === cover, step = isC ? 6 : window.deck ? window.deck.state.step : 0;
-  if (fresh) { fresh = false; st = step; tl = 0; tIn = step > 0 ? 99 : 0; if (isC) { A.concl = 1; A.open = 1; A.wire = 1; } }
+  if (fresh) { fresh = false; st = step; tl = 0; tIn = step > 0 ? 99 : 0; if (isC) { A.concl = 1; A.open = 1; A.wire = 1; AV.concl = AV.open = AV.wire = 0; } }
   if (step < st) { st = step; tl = 0; }
   // Skipping ahead never cuts: the current stage fast-forwards to its end, then the next one starts.
   const ff = step > st, rate = ff ? 8 : 1;
@@ -219,14 +220,15 @@ function frame(now) {
   const frF = window.RUP_FR != null ? window.RUP_FR : vs < 3 ? 0 : vs === 3 ? run : 255;       // fault frame (s)
   const frS = window.RUP_FR != null ? window.RUP_FR : vs < 4 ? 0 : vs === 4 ? run : 255;       // seafloor frame (s)
   const ft = vs === 5 ? Math.min(TS_LAST, t2 * sp / DUR_T * TS_LAST) : 0;
-  const k = 1 - Math.exp(-dt * 1.5 * (ff ? 3 : 1)), to = (n, t) => { A[n] += (t - A[n]) * k; };
+  // critically damped springs: every transition starts and ends with zero velocity (no jerk when a stage begins)
+  const om = 2.5 * (ff ? 3 : 1), ex = Math.exp(-om * dt), to = (n, t) => { const x = A[n] - t, v = AV[n] || 0, c = (v + om * x) * dt; A[n] = t + (x + c) * ex; AV[n] = (v - om * c) * ex; };
   to('depth', vs === 1 ? 1 : 0.3); to('concl', st >= 6 ? 1 : 0);
   to('open', vs >= 1 ? 1 : 0); to('hi', vs === 1 ? 1 : 0); to('bathy', vs === 2 ? 1 : 0); to('wire', vs >= 2 ? 1 : 0);
   to('slip', vs >= 3 ? 1 : 0); to('dim', vs === 2 || vs >= 4 ? 1 : 0); to('show', vs === 4 ? 1 : vs === 5 ? 0.45 : 0); to('water', vs === 5 ? 1 : 0);
 
   /* camera: zoom in from the whole globe, then a slow pendulum */
   const T = ll(-125.5, 45.6, 0.993), up = norm(T), e0 = norm(cross([0, 1, 0], up)), n0 = cross(up, e0);
-  const zi = Math.min(1, tIn / 6), zs = zi * zi * (3 - 2 * zi), el = (78 - 16 * zs) * D2R, Dc = 0.268 * Math.pow(6.5, 1 - zs);
+  const zi = Math.min(1, tIn / 7.5), zs = zi * zi * zi * (zi * (zi * 6 - 15) + 10), el = (78 - 16 * zs) * D2R, Dc = 0.268 * Math.pow(6.5, 1 - zs);
   const cam = add(T, mul(add(mul(add(mul(e0, Math.cos(az)), mul(n0, Math.sin(az))), Math.cos(el)), mul(up, Math.sin(el))), Dc));
   const PR = persp(33 * D2R, cv.width / cv.height, 0.01, 4); PR[8] = -0.5 * A.concl;      // conclusions on the left: the scene moves to the right half
   const VP = mmul(PR, lookAt(cam, T, up));
