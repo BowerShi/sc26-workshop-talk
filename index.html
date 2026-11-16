@@ -24,9 +24,6 @@
   <div class="chain"><span data-k="3">Fault slip</span><b>→</b><span data-k="4">Seafloor motion</span><b>→</b><span data-k="5">Tsunami</span></div>
   <div class="tag3" data-hud="tag"></div>
   <div class="cite3">Rupture scenario: FakeQuakes (Melgar et al., JGR Solid Earth, 2016)</div>
-  <aside class="notes">
-    Good morning. I'm Bowen Shi from the Oden Institute at UT Austin. This is joint work with Sreeram Venkat, Stefan Henneking and Omar Ghattas.<br><br>On the right you see what we generate: a potential earthquake at the Cascadia Subduction Zone, the seafloor motion it causes, and the tsunami. With our method, one such event takes <b>24 milliseconds</b>.
-  </aside>
 </section>
 
 
@@ -44,9 +41,6 @@
       <li class="st goal" data-s="3"><b>Tsunami early warning</b> aims to forecast the tsunami in real time, from pressure sensors on the seafloor</li>
     </ul>
   </div>
-  <aside class="notes">
-    This is the Cascadia Subduction Zone: a thousand-kilometer fault just off the Pacific Northwest coast.<br><br><b>[click]</b> Its last great earthquake was in January 1700. It has been silent for 326 years. The U.S. Geological Survey estimates a 10 to 15 percent chance of a magnitude nine in the next 50 years.<br><br><b>[click]</b> The fault is close to the coast, so the tsunami arrives within minutes.<br><br><b>[click]</b> Tsunami early warning aims to forecast that tsunami in real time, from pressure sensors on the seafloor.
-  </aside>
 </section>
 
 <!-- 3 ─────────────────────────────────────────────── PHYSICS -->
@@ -56,9 +50,6 @@
   <ul class="bm wide one" style="top:900px">
     <li class="st" data-s="2">Pressure waves reach the seafloor sensors in seconds; the tsunami follows in minutes</li>
   </ul>
-  <aside class="notes">
-    The physical problem: a subduction zone earthquake causes a tsunami. The oceanic plate slides under North America.<br><br><b>[click]</b> Between earthquakes the plates are locked, and the upper plate is slowly dragged down.<br><br><b>[click]</b> In an earthquake it springs back and lifts the water column: that is the tsunami. The moving seafloor also sends pressure waves through the ocean, and the sensors feel them within seconds.
-  </aside>
 </section>
 
 <!-- 4 ─────────────────────────────────────────────── MODEL -->
@@ -75,9 +66,6 @@
   <ul class="bm wide one" style="top:915px">
     <li>The seafloor motion couples them: output of the first, input of the second</li>
   </ul>
-  <aside class="notes">
-    We model this as linear wave propagation. First the earthquake: elastic waves in a layered Earth, from the fault slip s to the seafloor motion m. Then the tsunami: acoustic-gravity waves in the ocean, from the seafloor motion to the waveforms q: pressure at the sensors and wave heights. The seafloor motion couples the two.
-  </aside>
 </section>
 
 <!-- 5 ─────────────────────────────────────────────── WHY DATA -->
@@ -91,9 +79,6 @@
       <ul><li>the data must be simulated: stochastic earthquake sources from FakeQuakes</li></ul></li>
     <li class="st goal" data-s="3">We need 10<sup>4</sup> to 10<sup>6</sup> earthquakes, each with its corresponding tsunami waveforms</li>
   </ul>
-  <aside class="notes">
-    Our group's 2025 Gordon Bell work solves the early warning problem in real time, from the seafloor pressure sensors. It uses a Gaussian prior: fast and exact, but limited to Gaussian settings.<br><br><b>[click]</b> Machine learning can go beyond that, but it needs training data.<br><br><b>[click]</b> For Cascadia there is no recorded data at all: the last great earthquake was in 1700. So the data must be simulated, with stochastic earthquake sources from FakeQuakes.<br><br><b>[click]</b> And we need ten thousand to a million of them, each with its corresponding tsunami waveforms.
-  </aside>
 </section>
 
 <!-- 6 ─────────────────────────────────────────────── WHY HARD -->
@@ -106,9 +91,6 @@
   </ul>
   <div class="question st" data-s="2" style="top:690px;font-size:54px;padding:26px 0">How can we generate a large amount of high-fidelity data?</div>
   <ul class="bm wide one st" data-s="3" style="top:860px;font-size:38px"><li class="goal"><b>Our solution:</b> exploit the linear time-invariant structure, with high-performance multi-GPU computing. The operators are computed offline and stay resident in GPU memory</li></ul>
-  <aside class="notes">
-    But both simulations, the earthquake and the tsunami, are very expensive. One example: the tsunami mesh has more than 14 million hexahedral elements, and one simulation takes about an hour on 512 A100 GPUs.<br><br><b>[click]</b> And for one earthquake the seafloor motion alone has 618 million unknowns.<br><br><b>[click]</b> So: how can we generate a large amount of high-fidelity data?<br><br><b>[click]</b> Our solution: exploit the linear time-invariant structure, together with high-performance multi-GPU computing. The operators are computed once, offline, and stay resident in GPU memory.
-  </aside>
 </section>
 
 <!-- 7 ─────────────────────────────────────────────── LTI -->
@@ -124,9 +106,6 @@
   </ul>
   <div class="eqc st" data-s="2" style="top:728px"><img class="tex" src="assets/eq/conv2.svg?v=1" alt="" style="width:1010px;height:150px;"></div>
   <ul class="bm wide one st" data-s="3" style="top:915px;font-size:40px"><li class="goal">Compute the impulse responses <b class="mx">F</b><sub class="mxs">k</sub> once. Reuse them for every earthquake</li></ul>
-  <aside class="notes">
-    Both models can be written as this dynamical system. For the tsunami, f is the normal seafloor velocity and x is the acoustic-gravity state. For the earthquake, f is the slip rate and x is the seismic wave field.<br><br><b>[click]</b> A, B and C do not change with time: the system is linear time-invariant.<br><br><b>[click]</b> So the output is a convolution of the input with the impulse responses F k, and F k has this explicit form.<br><br><b>[click]</b> We compute the F k once and reuse them for every earthquake.
-  </aside>
 </section>
 
 <!-- 8 ─────────────────────────────────────────────── TOEPLITZ -->
@@ -134,9 +113,6 @@
   <header><div class="kicker">Structure · 2</div><h2>FFT-based block Toeplitz matvec</h2></header>
   <canvas data-scene="toep" data-w="1780" data-h="770" style="left:70px;top:262px"></canvas>
   <div class="rightcol" style="left:1310px;top:300px"><img class="tex" src="assets/eq/mv.svg?v=3" alt="" style="width:209px;height:50px;"></div>
-  <aside class="notes">
-    Stack all time steps into one vector. The convolution becomes one matrix-vector product, y equals F x. The matrix is block lower-triangular Toeplitz: a block depends only on the time lag.<br><br><b>[click]</b> So we store only the first block column.<br><br><b>[click]</b> Now the five stages of the FFT matvec. Zero-pad: the matrix becomes block circulant.<br><br><b>[click]</b> FFT in time, with cuFFT: the matrix becomes block diagonal.<br><br><b>[click]</b> Each block hits only its own piece of the vector: one strided batched GEMV.<br><br><b>[click]</b> Inverse FFT.<br><br><b>[click]</b> Un-pad. This is the FFTMatvec library, in C++ and CUDA.
-  </aside>
 </section>
 
 <!-- 9 ─────────────────────────────────────────────── OUR PROBLEM -->
@@ -144,9 +120,6 @@
   <header><div class="kicker">Our problem</div><h2>Earthquake-to-tsunami operator</h2></header>
   <canvas data-scene="flow" data-w="1740" data-h="790" style="left:90px;top:280px"></canvas>
   <div class="rightcol" style="left:1100px;top:56px"><img class="tex" src="assets/eq/twomvb.svg?v=1" alt="" style="width:738px;height:240px;"></div>
-  <aside class="notes">
-    Now our problem. What we want is the formula at the top right: q equals F q, D t, F G, s. Read it from right to left. s is the slip rate on the fault. F G, the earthquake operator, turns it into the seafloor displacement m. The time derivative D t turns that into the seafloor velocity v. And F q, the acoustic-gravity tsunami operator, turns the velocity into the waveforms q. Below, the same thing as a picture. F G is block Toeplitz with tall blocks: a few fault patches in, the whole seafloor out.<br><br><b>[click]</b> We apply it with exactly the five stages you just saw. Out comes the seafloor motion m.<br><br><b>[click]</b> A time derivative gives the seafloor velocity v. And v is the input of the tsunami operator F q, with wide blocks: the whole seafloor in, a few waveforms out.<br><br><b>[click]</b> The same five stages again give the waveforms q: the pressure at the sensors and the surface wave heights.<br><br><b>[click]</b> So the whole map is two consecutive block Toeplitz matrix-vector products: small in, huge in the middle, small out.
-  </aside>
 </section>
 
 <!-- 10 ─────────────────────────────────────────────── PARTITION -->
@@ -154,9 +127,6 @@
   <header><div class="kicker">Multi-GPU</div><h2>Many GPUs: partition across the seafloor</h2></header>
   <canvas data-scene="part" data-w="1740" data-h="790" style="left:90px;top:280px"></canvas>
   <div class="rightcol st" data-s="2" style="left:90px;top:370px"><img class="tex" src="assets/eq/part.svg?v=3" alt="" style="width:400px;height:115px;"></div>
-  <aside class="notes">
-    Many GPUs. The two operators share one huge dimension, the seafloor.<br><br><b>[click]</b> So we cut only the seafloor, in the same places in every block.<br><br><b>[click]</b> Then we reindex: space outside, time inside. The shapes do not change, but the wide operator is now a row of small block Toeplitz matrices, and the tall one is a column. A row times a column is a sum of local products.<br><br><b>[click]</b> So each pair goes to its own GPU.<br><br><b>[click]</b> At run time we broadcast the small source.<br><br><b>[click]</b> Each GPU does the first matvec. Its slice of the seafloor field never leaves the GPU.<br><br><b>[click]</b> Then the second matvec.<br><br><b>[click]</b> And one reduce adds up the small outputs.
-  </aside>
 </section>
 
 <!-- 11 ─────────────────────────────────────────────── FORMING -->
@@ -169,9 +139,6 @@
     <li class="st" data-s="2"><b class="cO">Earthquake operator:</b> frequency–wavenumber method for a layered Earth, accelerated on GPUs
       <ul><li>one impulse at a fault patch gives the Green’s functions at all seafloor points</li></ul></li>
   </ul>
-  <aside class="notes">
-    Where do the operators come from? There are 2.4 million seafloor points, but only 963 fault patches and 64 waveforms.<br><br><b>[click]</b> For the tsunami operator we use adjoint solves: one per waveform, instead of 2.4 million forward solves.<br><br><b>[click]</b> For the earthquake operator we use the frequency-wavenumber method for a layered Earth, accelerated on GPUs: one impulse at a fault patch gives the Green's functions at all seafloor points.
-  </aside>
 </section>
 
 <!-- 12 ─────────────────────────────────────────────── SETUP -->
@@ -185,9 +152,6 @@
     <li><b>Machines:</b> TACC Vista and Horizon, up to 64 GPUs
       <ul><li>Vista GH200: 96 GiB per GPU, one GPU per node, InfiniBand</li><li>Vista GB200: 184 GiB per GPU, one NVL72 domain</li><li>Horizon GB200: NVL4 nodes, InfiniBand between nodes</li></ul></li>
   </ul>
-  <aside class="notes">
-    The full Cascadia setting: 963 subfaults, 2.4 million seafloor points, 64 waveform locations, 256 time steps. The two operators need 9.45 tebibytes of GPU memory. Our implementation is FFTMatvec, in C++ and CUDA. The baseline is PyTorch's conv-transpose-1d: the same convolution in the time domain. We run on TACC's Vista, on the GH200 and GB200 partitions, and on the GB200 nodes of Horizon, with up to 64 GPUs.
-  </aside>
 </section>
 
 <!-- 13 ─────────────────────────────────────────────── SCALING -->
@@ -201,9 +165,6 @@
   <div id="chartWeak" class="chart" style="left:1000px;top:330px"></div>
   <div class="chartcap" style="left:90px"><b>Strong scaling.</b> 60 subfaults, 4 outputs, full 2.4 M seafloor grid.<span> Efficiency at 64 GPUs: <b class="cO">85%</b>, <b class="cB">81%</b>, <b class="cG">62%</b>.</span></div>
   <div class="chartcap" style="left:1000px"><b>Weak scaling.</b> 480 subfaults, 32 outputs, 37,758 seafloor points per GPU.<span> Efficiency at 64 GPUs: <b class="cO">95.8%</b>, <b class="cB">95.1%</b>, <b class="cG">90.7%</b>.</span></div>
-  <aside class="notes">
-    We scale up to 64 GPUs on three systems: Vista GH200, Vista GB200, and the GB200 nodes of Horizon. On Vista, strong scaling efficiency is above 80 percent and weak scaling about 95 percent. On Horizon the times match Vista GB200 at small counts; at 64 GPUs the strong scaling efficiency drops to 62 percent, weak scaling stays at 91 percent. FFTMatvec stays well below the PyTorch baseline everywhere.
-  </aside>
 </section>
 
 
@@ -225,9 +186,6 @@
     <div class="lane"><label>FFTMatvec</label><div class="track"><div class="fill o" style="--w:4.6%;--d:.5s"></div></div><span>4 min</span></div>
     <div class="lane"><label>PyTorch</label><div class="track"><div class="fill g" style="--w:100%;--d:8.7s"></div></div><span>87 min</span></div>
   </div>
-  <aside class="notes">
-    For the full problem on 64 GB200 GPUs, one earthquake takes 24 milliseconds, from fault slip to waveforms. PyTorch needs 522 milliseconds: 21.8 times slower. Ten thousand earthquakes take four minutes instead of 87.
-  </aside>
 </section>
 
 <!-- 15 ─────────────────────────────────────────────── 3D + SUMMARY -->
@@ -273,9 +231,6 @@
       <div class="who">Thu, Nov 19, 1:30 – 1:45 pm · Room W185d</div>
     </div>
   </div>
-  <aside class="notes">
-    Finally, what comes out. The animation plays by itself and keeps looping; the two clicks only bring up the summary and then the announcements.<br><br><b>[fault appears]</b> Under the ocean lies the fault.<br><br><b>[mesh appears]</b> Above it, the seafloor mesh for the tsunami.<br><br><b>[slip]</b> Here is one potential magnitude 9.1 earthquake at the Cascadia Subduction Zone: the slip on the fault.<br><br><b>[seafloor]</b> The slip lifts the seafloor: the output of our first matvec.<br><br><b>[tsunami]</b> And the seafloor lifts the water: the tsunami.<br><br><b>[click: summary]</b> To summarize. One: both wave models are linear and time-invariant, so the whole map is two block Toeplitz matvecs. Two: the operators come from offline PDE solves, forward for the earthquake and adjoint for the tsunami. Three: an FFT-based multi-GPU matvec, partitioned only along the seafloor. Four: 10,000 earthquakes in four minutes on one NVL72 domain, using almost all of its GPU memory.<br><br><b>[click: this week at SC26]</b> Three more things from our group this week. Our ACM Student Research Competition poster, on using these earthquake ensembles for probabilistic tsunami forecasting, is in the Skyline Ballroom North pre-function area. Sreeram Venkat's paper on sensor placement for tsunami early warning is a finalist for best paper and best student paper: Wednesday at 4:14 in W178ab. And his Doctoral Showcase talk is Thursday at 1:30 in W185d.<br><br>Thank you. I am happy to take questions.
-  </aside>
 </section>
 
 </div>
