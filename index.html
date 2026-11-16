@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=104">
+<link rel="stylesheet" href="deck.css?v=106">
 </head>
 <body>
 <div id="stage">
@@ -231,7 +231,7 @@
 </section>
 
 <!-- 15 ─────────────────────────────────────────────── 3D + SUMMARY -->
-<section class="slide dark scene3d" data-steps="6" data-title="Potential earthquakes in 3D, and summary" data-time="2:00">
+<section class="slide dark scene3d" data-steps="7" data-title="Potential earthquakes in 3D, and summary" data-time="2:00">
   <canvas id="rup3d" class="bleed" style="width:1920px;height:1080px"></canvas>
   <div class="vig"></div><div class="vig c"></div>
   <header class="over"><div class="kicker">Results: one earthquake</div><h2 data-hud="title">Potential magnitude 9.1 earthquake at the Cascadia Subduction Zone</h2><div class="cap3" data-hud="phase"></div><div class="clock3" data-hud="clock"></div></header>
@@ -251,8 +251,27 @@
     <p class="affil">arXiv:2608.21763<br><span class="ack">Supported by DARPA COMPASS, DOD MURI and DOE ASCR. Computing resources: TACC and NERSC.</span></p>
     <div class="logos3"><img src="assets/UTA_logo_white.svg" alt="The University of Texas at Austin"><img src="assets/OdenInstitutePrimary_white.svg" alt="Oden Institute"><img class="inv" src="assets/optimuslogo.svg" alt="OPTIMUS"></div>
   </div>
+  <div class="concl more">
+    <div class="kicker">This week at SC26</div>
+    <h1>More from our group</h1>
+    <div class="ev3">
+      <div class="when"><b>Poster</b> · Tue, Nov 17, 10:00 am – 5:00 pm</div>
+      <div class="ttl">Informing Probabilistic Tsunami Forecasting with Massive Earthquake Ensembles</div>
+      <div class="who">McCormick Place West, Level 3, Skyline Ballroom North Pre-Function Area</div>
+    </div>
+    <div class="ev3">
+      <div class="when"><b>Best Paper and Best Student Paper Finalist</b> · Wed, Nov 18, 4:14 – 4:36 pm · W178ab</div>
+      <div class="ttl">Sensor Placement for Tsunami Early Warning via Large-Scale Bayesian Optimal Experimental Design</div>
+      <div class="who">Sreeram Venkat, Stefan Henneking, Omar Ghattas · arXiv:2604.08812</div>
+    </div>
+    <div class="ev3">
+      <div class="when"><b>Doctoral Showcase</b> · Thu, Nov 19, 1:30 – 1:45 pm · W185d</div>
+      <div class="ttl">Real-Time High-Fidelity Bayesian Inference and Forecasting of Tsunamis: A Digital Twin for Tsunami Early Warning Applied to the Cascadia Subduction Zone</div>
+      <div class="who">Sreeram Venkat</div>
+    </div>
+  </div>
   <aside class="notes">
-    Finally, what comes out. This plays by itself; press → to fast-forward.<br><br><b>[fault appears]</b> Under the ocean lies the fault.<br><br><b>[mesh appears]</b> Above it, the seafloor mesh for the tsunami.<br><br><b>[slip]</b> Here is one potential magnitude 9.1 earthquake at the Cascadia Subduction Zone: the slip on the fault.<br><br><b>[seafloor]</b> The slip lifts the seafloor: the output of our first matvec.<br><br><b>[tsunami]</b> And the seafloor lifts the water: the tsunami.<br><br><b>[click: summary]</b> To summarize. One: both wave models are linear and time-invariant, so the whole map is two block Toeplitz matvecs. Two: the operators come from offline PDE solves, forward for the earthquake and adjoint for the tsunami. Three: an FFT-based multi-GPU matvec, partitioned only along the seafloor. Four: 10,000 earthquakes in four minutes on one NVL72 domain, using almost all of its GPU memory.<br><br>Thank you. I am happy to take questions.
+    Finally, what comes out. This plays by itself; press → to fast-forward.<br><br><b>[fault appears]</b> Under the ocean lies the fault.<br><br><b>[mesh appears]</b> Above it, the seafloor mesh for the tsunami.<br><br><b>[slip]</b> Here is one potential magnitude 9.1 earthquake at the Cascadia Subduction Zone: the slip on the fault.<br><br><b>[seafloor]</b> The slip lifts the seafloor: the output of our first matvec.<br><br><b>[tsunami]</b> And the seafloor lifts the water: the tsunami.<br><br><b>[click: summary]</b> To summarize. One: both wave models are linear and time-invariant, so the whole map is two block Toeplitz matvecs. Two: the operators come from offline PDE solves, forward for the earthquake and adjoint for the tsunami. Three: an FFT-based multi-GPU matvec, partitioned only along the seafloor. Four: 10,000 earthquakes in four minutes on one NVL72 domain, using almost all of its GPU memory.<br><br><b>[click: this week at SC26]</b> Three more things from our group this week. My poster, on using these earthquake ensembles for probabilistic tsunami forecasting, is in the Skyline Ballroom North pre-function area. Sreeram Venkat's paper on sensor placement for tsunami early warning is a finalist for best paper and best student paper: Wednesday at 4:14 in W178ab. And his Doctoral Showcase talk is Thursday at 1:30 in W185d.<br><br>Thank you. I am happy to take questions.
   </aside>
 </section>
 
@@ -262,7 +281,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=104"></script>
-<script src="scene3d.js?v=104"></script>
+<script src="deck.js?v=106"></script>
+<script src="scene3d.js?v=106"></script>
 </body>
 </html>

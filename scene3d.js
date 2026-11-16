@@ -204,7 +204,7 @@ function frame(now) {
   if (fresh) { fresh = false; st = step; tl = 0; tIn = step > 0 ? 99 : 0; if (isC) { A.concl = 1; A.open = 1; A.wire = 1; AV.concl = AV.open = AV.wire = 0; } }
   if (step < st) { st = step; tl = 0; }
   // Skipping ahead never cuts: the current stage fast-forwards to its end, then the next one starts.
-  const ff = step > st, rate = ff ? 8 : 1;
+  const ff = step > st && st < 6, rate = ff ? 8 : 1;
   tl += dt * rate; tIn += dt * rate; tCam += dt;
   if (ff && tl >= END[st]) { st++; tl = 0; }
   else if (!ff && st <= 5 && tl >= END[st] && window.deck && !window.RUP_HOLD) window.deck.next();
