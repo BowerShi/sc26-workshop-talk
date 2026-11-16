@@ -200,14 +200,13 @@ function frame(now) {
   const host = cover && cover.classList.contains('active') ? cover : main.classList.contains('active') ? main : null;
   if (!host || !ready) { fresh = true; return; }
   if (slide !== host) { slide = host; host.insertBefore(cv, host.firstChild); fresh = true; lastHud = ''; }
-  const isC = host === cover, step = isC ? 6 : window.deck ? window.deck.state.step : 0;
-  if (fresh) { fresh = false; st = step; tl = 0; tIn = step > 0 ? 99 : 0; if (isC) { A.concl = 1; A.open = 1; A.wire = 1; AV.concl = AV.open = AV.wire = 0; } }
-  if (step < st) { st = step; tl = 0; }
+  // The animation runs on its own clock. On the last slide the deck's clicks only switch the left panel: 1 summary, 2 more from our group.
+  const isC = host === cover, step = isC ? 1 : window.deck ? window.deck.state.step : 0, cc = step >= 1 ? 1 : 0;
+  if (fresh) { fresh = false; st = step > 0 ? 6 : 0; tl = 0; tIn = step > 0 ? 99 : 0; if (isC) { A.concl = 1; A.open = 1; A.wire = 1; AV.concl = AV.open = AV.wire = 0; } }
   // Skipping ahead never cuts: the current stage fast-forwards to its end, then the next one starts.
-  const ff = step > st && st < 6, rate = ff ? 8 : 1;
+  const ff = false, rate = 1;
   tl += dt * rate; tIn += dt * rate; tCam += dt;
-  if (ff && tl >= END[st]) { st++; tl = 0; }
-  else if (!ff && st <= 5 && tl >= END[st] && window.deck && !window.RUP_HOLD) window.deck.next();
+  if (st <= 5 && tl >= END[st] && !window.RUP_HOLD) { st++; tl = 0; }
   const az = AZ0 + AMP * Math.sin(tCam * 2 * Math.PI / SWEEP);
   const tgt = isC ? COVER : EVENTS[0];
   if (!ev[curId]) { if (!ev[tgt]) return; curId = tgt; }
@@ -222,7 +221,7 @@ function frame(now) {
   const ft = vs === 5 ? Math.min(TS_LAST, t2 * sp / DUR_T * TS_LAST) : 0;
   // critically damped springs: every transition starts and ends with zero velocity (no jerk when a stage begins)
   const om = 2.5 * (ff ? 3 : 1), ex = Math.exp(-om * dt), to = (n, t) => { const x = A[n] - t, v = AV[n] || 0, c = (v + om * x) * dt; A[n] = t + (x + c) * ex; AV[n] = (v - om * c) * ex; };
-  to('depth', vs === 1 ? 1 : 0.3); to('concl', st >= 6 ? 1 : 0);
+  to('depth', vs === 1 ? 1 : 0.3); to('concl', cc);
   to('open', vs >= 1 ? 1 : 0); to('hi', vs === 1 ? 1 : 0); to('bathy', vs === 2 ? 1 : 0); to('wire', vs >= 2 ? 1 : 0);
   to('slip', vs >= 3 ? 1 : 0); to('dim', vs === 2 || vs >= 4 ? 1 : 0); to('show', vs === 4 ? 1 : vs === 5 ? 0.45 : 0); to('water', vs === 5 ? 1 : 0);
 
@@ -268,11 +267,11 @@ function frame(now) {
 
   /* HUD: one caption, one clock, one colour bar */
   const clock = vs === 3 ? Math.round(frF) + ' s' : vs === 4 ? Math.round(frS) + ' s' : vs === 5 ? (ft * M.tsDt / 60).toFixed(1) + ' min' : '';
-  const key = id + vs + clock + st;
+  const key = id + vs + clock + st + cc;
   if (key !== lastHud) { lastHud = key;
     put('clock', clock ? 'time  ' + clock : '');
     put('title', 'Potential magnitude ' + E.mw.toFixed(1) + ' earthquake at the Cascadia Subduction Zone');
-    put('phase', CAP[vs]); put('tag', 'Potential magnitude ' + E.mw.toFixed(1) + ' earthquake\nat the Cascadia Subduction Zone' + (clock ? '\ntime  ' + clock : '')); slide.dataset.concl = st >= 6 ? 1 : 0;
+    put('phase', CAP[vs]); put('tag', 'Potential magnitude ' + E.mw.toFixed(1) + ' earthquake\nat the Cascadia Subduction Zone' + (clock ? '\ntime  ' + clock : '')); slide.dataset.concl = cc;
     slide.dataset.cb = ['', 'dp', '', 'cs', 'sf', 'ts'][vs]; slide.dataset.phase = vs;
     const [lab, hi, mid, lo] = vs === 3 ? ['Slip (m)', csC, csC / 2, 0] : vs === 4 ? ['Vertical seafloor\ndisplacement (m)', '+' + sfC, 0, '−' + sfC] : vs === 5 ? ['Wave height (m)', '+' + tsC, 0, '−' + tsC] : vs === 1 ? ['Depth (km)', 6, 18, 30] : ['', '', '', ''];
     if (lab) { put('cbl', lab); put('cb2', hi); put('cb1', mid); put('cb0', lo); } }
