@@ -428,7 +428,7 @@ scenes.flow = (() => {
   const stage = (u, N2) => { const he = 3.5 + (N2 - 1) * 0.28 + 1.0; return { pad: ease(u / 1.0), fft: ease((u - 1.5) / 1.1), off: ease((u - 3.0) / 0.6), hit: r => clamp((u - 3.5 - r * 0.28) / 1.0), ifft: ease((u - he - 0.5) / 1.1), un: ease((u - he - 2.0) / 0.9),
     ph: u < 0 ? -1 : u < 1.5 ? 0 : u < 3.0 ? 1 : u < he + 0.5 ? 2 : u < he + 2.0 ? 3 : u < he + 3.0 ? 4 : 5, total: he + 3.0 }; };
   const Z0 = { pad: 0, fft: 0, off: 0, hit: () => 0, ifft: 0, un: 0, resA: 0 };
-  const SG = [1.2, 2.8, 6.1, 7.7, 9.0], g0 = 2.4, e1 = g0 + 9.0, g2 = e1 + 3.2, e2 = g2 + 9.0, gates = [g0, ...SG.map(u => g0 + u), e1 + 1.6, g2, ...SG.map(u => g2 + u), e2 + 3.6];
+  const SG = [1.2, 2.8, 6.1, 7.7, 9.0], g0 = 2.4, e1 = g0 + 9.0, g2 = e1 + 3.2, e2 = g2 + 9.0, gates = [g0, e1, g2, e2, e2 + 3.6];   // the five FFT stages play by themselves: they were taught on the previous slide
   const XR = -(60 + VW), xQ = n => XR - 20 - n * (B + G);
   const cam = (lo, hi, z) => ({ z, X: LW / 2 - z * (lo + hi) / 2, Y: Y0 }), mixc = (p, q, t) => ({ z: lerp(p.z, q.z, t), X: lerp(p.X, q.X, t), Y: lerp(p.Y, q.Y, t) });
   const CG0 = cam(XR, 3 * (a + G) + 20 + VW, ZA), CG1 = cam(XR, 6 * (a + G) + 20 + VW, ZB), CQ0 = cam(xQ(3) + XR, XR + VW, ZA), CQ1 = cam(xQ(6) + XR, XR + VW, ZB), CF = { z: ZF, X: 1044, Y: 215 };
@@ -436,7 +436,7 @@ scenes.flow = (() => {
   return { reset() { for (const k in st) delete st[k]; }, draw(g, W, H, t, step, ts, dt) {
     g.clearRect(0, 0, W, H);
     const tg = gates[step]; if (st.T === undefined) st.T = step ? tg : 0;
-    st.T = st.T < tg ? Math.min(tg, st.T + dt * (step && st.T < gates[step - 1] - 0.01 ? 7 : 1)) : Math.max(tg, st.T - dt * 4); const T = window.FLOW_T ?? st.T;
+    st.T = st.T < tg ? Math.min(tg, st.T + dt * (step && st.T < gates[step - 1] - 0.01 ? 7 : st.T > g2 ? 1.4 : 1)) : Math.max(tg, st.T - dt * 6); const T = window.FLOW_T ?? st.T;
     const A1 = stage(T - g0, 6), s2 = T - e1, hide = ease(s2 / 0.8), dtv = ease((s2 - 0.4) / 1.0), pan = ease((s2 - 1.6) / 1.4);
     const A2 = stage(T - g2, 6), s4 = T - e2, back = ease((s4 - 0.3) / 1.0), pq = A2.pad * (1 - back), zo = ease(s4 / 1.3), sw = ease((s4 - 1.5) / 0.4), lam = ease((s4 - 2.0) / 1.5), fo = 1 - ease(s4 / 0.6);
     const c = T < e1 ? mixc(CG0, CG1, A1.pad) : T < g2 ? mixc(CG1, CQ0, pan) : mixc(mixc(CQ0, CQ1, pq), CF, zo), vcol = mix(charc, bluec, dtv);
