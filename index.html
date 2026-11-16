@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=81">
+<link rel="stylesheet" href="deck.css?v=82">
 </head>
 <body>
 <div id="stage">
@@ -97,18 +97,17 @@
 </section>
 
 <!-- 6 ─────────────────────────────────────────────── WHY HARD -->
-<section class="slide light" data-steps="4" data-title="The challenge" data-time="1:00" data-cite="Henneking et al., SC ’25 (2025 ACM Gordon Bell Prize)">
+<section class="slide light" data-steps="3" data-title="The challenge" data-time="0:55" data-cite="Henneking et al., SC ’25 (2025 ACM Gordon Bell Prize)">
   <header><div class="kicker">The challenge</div><h2>Large-scale high-fidelity simulation is expensive</h2></header>
   <ul class="bm wide" style="top:280px;font-size:40px">
-    <li><b class="cT">Tsunami:</b> a mesh of <b>14,473,092</b> hexahedral elements
-      <ul><li>one ocean simulation takes about <b>1 hour on 512 A100 GPUs</b></li></ul></li>
-    <li class="st" data-s="1"><b class="cO">Earthquake:</b> seismic wave simulation is very expensive as well</li>
-    <li class="st" data-s="2">For one earthquake, the seafloor motion alone has <b>618 million</b> unknowns</li>
+    <li>A large domain, and short wavelengths that must be resolved
+      <ul><li>tsunami: a mesh of <b>14,473,092</b> hexahedral elements</li><li>one ocean simulation takes about <b>1 hour on 512 A100 GPUs</b></li></ul></li>
+    <li class="st" data-s="1">For one earthquake, the seafloor motion alone has <b>618 million</b> unknowns</li>
   </ul>
-  <div class="question st" data-s="3" style="top:690px;font-size:54px;padding:26px 0">How can we generate a large amount of high-fidelity data?</div>
-  <ul class="bm wide one st" data-s="4" style="top:860px;font-size:38px"><li class="goal"><b>Our solution:</b> exploit the linear time-invariant structure, with high-performance multi-GPU computing. The operators are computed offline and stay resident in GPU memory</li></ul>
+  <div class="question st" data-s="2" style="top:690px;font-size:54px;padding:26px 0">How can we generate a large amount of high-fidelity data?</div>
+  <ul class="bm wide one st" data-s="3" style="top:860px;font-size:38px"><li class="goal"><b>Our solution:</b> exploit the linear time-invariant structure, with high-performance multi-GPU computing. The operators are computed offline and stay resident in GPU memory</li></ul>
   <aside class="notes">
-    The challenge: large-scale, high-fidelity forward simulation of the earthquake and the tsunami is expensive. For the tsunami, the ocean is discretized with more than 14 million hexahedral elements, and one simulation takes about an hour on 512 A100 GPUs.<br><br><b>[click]</b> The earthquake simulation, seismic wave propagation, is very expensive as well.<br><br><b>[click]</b> And the two are coupled through the seafloor motion, which alone has 618 million unknowns for one earthquake.<br><br><b>[click]</b> So the question of this talk is: how can we generate a large amount of high-fidelity data?<br><br><b>[click]</b> Our solution is to exploit the structure of the problem. Both models are linear and time-invariant. So we compute the operators once, offline, and then the whole map from earthquake to waveforms is two consecutive block Toeplitz matrix-vector products. And we use high-performance multi-GPU computing: with enough GPU memory the operators stay resident on the GPUs.
+    The challenge: large-scale, high-fidelity forward simulation is expensive. The domain is large, and the wavelengths we have to resolve are short, so the mesh cannot be coarse. For the tsunami, for example, the ocean is discretized with more than 14 million hexahedral elements, and one simulation takes about an hour on 512 A100 GPUs.<br><br><b>[click]</b> And for one earthquake, the seafloor motion alone has 618 million unknowns.<br><br><b>[click]</b> So the question of this talk is: how can we generate a large amount of high-fidelity data?<br><br><b>[click]</b> Our solution is to exploit the structure of the problem. Both models are linear and time-invariant. So we compute the operators once, offline, and then the whole map from earthquake to waveforms is two consecutive block Toeplitz matrix-vector products. And we use high-performance multi-GPU computing: with enough GPU memory the operators stay resident on the GPUs.
   </aside>
 </section>
 
@@ -263,7 +262,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=81"></script>
-<script src="scene3d.js?v=81"></script>
+<script src="deck.js?v=82"></script>
+<script src="scene3d.js?v=82"></script>
 </body>
 </html>
