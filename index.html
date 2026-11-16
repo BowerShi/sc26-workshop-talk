@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=79">
+<link rel="stylesheet" href="deck.css?v=80">
 </head>
 <body>
 <div id="stage">
@@ -31,38 +31,39 @@
 
 
 <!-- 2 ─────────────────────────────────────────────── BIG ONE -->
-<section class="slide light" data-steps="3" data-title="The Big One" data-time="0:50">
+<section class="slide light" data-steps="3" data-title="The Big One" data-time="0:55" data-cite="U.S. Geological Survey, Fact Sheet 2025–3050: Earthquake probabilities and hazards in the U.S. Pacific Northwest">
   <figure class="mapfig"><img src="assets/fault_mesh.jpg" alt="Cascadia fault mesh"><figcaption>The Cascadia fault interface, colored by depth</figcaption></figure>
   <div class="rightcol" style="left:860px;width:970px;top:96px">
-    <div class="kicker">The problem</div>
+    <div class="kicker">Problem formulation</div>
     <h2>“The Big One”:<br>the Cascadia Subduction Zone</h2>
-    <ul class="bm" style="margin-top:52px">
+    <ul class="bm" style="margin-top:44px;font-size:40px">
       <li>A 1,000 km fault just off the Pacific Northwest coast</li>
-      <li class="st" data-s="1">It can break in a magnitude 9 earthquake</li>
+      <li class="st" data-s="1">Last great earthquake: January 1700. Silent for 326 years
+        <ul><li>about a 10 to 15% chance of a magnitude 9 in the next 50 years</li></ul></li>
       <li class="st" data-s="2">The tsunami reaches the coast within minutes</li>
-      <li class="st goal" data-s="3"><b>Tsunami early warning problem:</b> forecast the tsunami in real time, from pressure sensors on the seafloor</li>
+      <li class="st goal" data-s="3"><b>Goal: tsunami early warning.</b> Forecast the tsunami in real time, from pressure sensors on the seafloor</li>
     </ul>
   </div>
   <aside class="notes">
-    You have probably heard of “the Big One”. This is the Cascadia Subduction Zone: a fault about a thousand kilometers long, just off the coast of the Pacific Northwest.<br><br><b>[click]</b> It can break in a magnitude nine earthquake. The last time was in the year 1700.<br><br><b>[click]</b> And because the fault is so close to the coast, the tsunami arrives within minutes.<br><br><b>[click]</b> So this is the tsunami early warning problem: forecast the tsunami in real time, using pressure sensors on the seafloor.
+    You have probably heard of “the Big One”. This is the Cascadia Subduction Zone: a fault about a thousand kilometers long, just off the coast of the Pacific Northwest.<br><br><b>[click]</b> Its last great earthquake was in January 1700. It has been silent for 326 years. The U.S. Geological Survey estimates about a 10 to 15 percent chance of a magnitude nine earthquake in the next 50 years.<br><br><b>[click]</b> And because the fault is so close to the coast, the tsunami arrives within minutes.<br><br><b>[click]</b> So the goal is tsunami early warning: forecast the tsunami in real time, using pressure sensors on the seafloor.
   </aside>
 </section>
 
 <!-- 3 ─────────────────────────────────────────────── PHYSICS -->
 <section class="slide light" data-steps="2" data-title="From fault slip to tsunami" data-time="0:55">
-  <header><div class="kicker">The physics</div><h2>How a subduction earthquake makes a tsunami</h2></header>
+  <header><div class="kicker">The physical problem</div><h2>A subduction zone earthquake causes a tsunami</h2></header>
   <figure class="usgs"><img src="assets/subduction_usgs.png" alt="Subduction zone: between earthquakes and during an earthquake"><i class="mask m2"></i><i class="mask m3"></i><figcaption>Figure: U.S. Geological Survey</figcaption></figure>
   <ul class="bm wide one" style="top:900px">
     <li class="st" data-s="2">Pressure waves reach the seafloor sensors in seconds; the tsunami follows in minutes</li>
   </ul>
   <aside class="notes">
-    How does such an earthquake make a tsunami? On the left: the oceanic plate slides under North America. But the motion is not smooth.<br><br><b>[click]</b> Between earthquakes the two plates are stuck by friction. The upper plate is slowly dragged down and squeezed, for centuries.<br><br><b>[click]</b> During an earthquake, friction fails. The edge of the upper plate springs free, seaward and upward, and lifts the whole water column. That is the tsunami. The moving seafloor also sends pressure waves through the ocean. Sensors on the seafloor feel them within seconds, while the tsunami needs minutes to reach the coast. This gap is our time window.
+    This is the physical problem: a subduction zone earthquake causes a tsunami. On the left: the oceanic plate slides under North America. But the motion is not smooth.<br><br><b>[click]</b> Between earthquakes the two plates are stuck by friction. The upper plate is slowly dragged down and squeezed, for centuries.<br><br><b>[click]</b> During an earthquake, friction fails. The edge of the upper plate springs free, seaward and upward, and lifts the whole water column. That is the tsunami. The moving seafloor also sends pressure waves through the ocean. Sensors on the seafloor feel them within seconds, while the tsunami needs minutes to reach the coast. This gap is our time window.
   </aside>
 </section>
 
 <!-- 4 ─────────────────────────────────────────────── MODEL -->
 <section class="slide light" data-steps="2" data-title="The model" data-time="0:55">
-  <header><div class="kicker">The model</div><h2>Two linear wave equations</h2></header>
+  <header><div class="kicker">Physical model</div><h2>Linear wave propagation: seismic and tsunami waves</h2></header>
   <div class="eqblock" style="top:268px">
     <h3>Earthquake: elastic waves in a layered Earth</h3>
     <div class="eqline"><img class="tex" src="assets/eq/elastic.svg?v=3" alt="" style="width:495px;height:101px;"><span class="eqnote">fault slip <b class="mx">s</b> &nbsp;→&nbsp; seafloor motion <b class="mx">m</b></span></div>
@@ -75,7 +76,7 @@
     <li>The seafloor motion couples them: output of the first, input of the second</li>
   </ul>
   <aside class="notes">
-    We model this with two linear wave equations. The first is the earthquake: elastic waves in the solid Earth. The source is the slip on the fault, s, and what we need from it is the motion of the seafloor, m. We model the Earth as horizontal layers. That will matter later.<br><br><b>[click]</b> The second is the tsunami: acoustic-gravity waves in the ocean, for velocity and pressure, with the real bathymetry. The seafloor motion drives it from the bottom. The outputs, q, are pressure at the sensors and wave heights.<br><br><b>[click]</b> The seafloor motion couples the two: it is the output of the first model and the input of the second.
+    Our physical model is linear wave propagation, for the seismic waves and for the tsunami waves. The first is the earthquake: elastic waves in the solid Earth. The source is the slip on the fault, s, and what we need from it is the motion of the seafloor, m. We model the Earth as horizontal layers. That will matter later.<br><br><b>[click]</b> The second is the tsunami: acoustic-gravity waves in the ocean, for velocity and pressure, with the real bathymetry. The seafloor motion drives it from the bottom. The outputs, q, are pressure at the sensors and wave heights.<br><br><b>[click]</b> The seafloor motion couples the two: it is the output of the first model and the input of the second.
   </aside>
 </section>
 
@@ -97,17 +98,17 @@
 
 <!-- 6 ─────────────────────────────────────────────── WHY HARD -->
 <section class="slide light" data-steps="4" data-title="The challenge" data-time="1:00" data-cite="Henneking et al., SC ’25 (2025 ACM Gordon Bell Prize)">
-  <header><div class="kicker">The challenge</div><h2>High-fidelity forward simulation is expensive</h2></header>
+  <header><div class="kicker">The challenge</div><h2>Large-scale high-fidelity simulation is expensive</h2></header>
   <ul class="bm wide" style="top:280px;font-size:40px">
     <li><b class="cT">Tsunami:</b> a mesh of <b>14,473,092</b> hexahedral elements
       <ul><li>one ocean simulation takes about <b>1 hour on 512 A100 GPUs</b></li></ul></li>
-    <li class="st" data-s="1"><b class="cO">Earthquake:</b> finite-difference seismic wave propagation takes thousands of CPU hours</li>
+    <li class="st" data-s="1"><b class="cO">Earthquake:</b> seismic wave simulation is very expensive as well</li>
     <li class="st" data-s="2">For one earthquake, the seafloor motion alone has <b>618 million</b> unknowns</li>
   </ul>
   <div class="question st" data-s="3" style="top:690px;font-size:54px;padding:26px 0">How can we generate a large amount of high-fidelity data?</div>
-  <ul class="bm wide one st" data-s="4" style="top:860px;font-size:38px"><li class="goal"><b>Our solution:</b> exploit the linear time-invariant structure. Compute the operators offline; the whole map is two consecutive block Toeplitz matrix–vector products</li></ul>
+  <ul class="bm wide one st" data-s="4" style="top:860px;font-size:38px"><li class="goal"><b>Our solution:</b> exploit the linear time-invariant structure, with high-performance multi-GPU computing. The operators are computed offline and stay resident in GPU memory</li></ul>
   <aside class="notes">
-    The challenge: generating high-fidelity forward simulations of the earthquake and the tsunami is expensive. For the tsunami, the ocean is discretized with more than 14 million hexahedral elements, and one simulation takes about an hour on 512 A100 GPUs.<br><br><b>[click]</b> For the earthquake, a finite-difference seismic wave propagation takes thousands of CPU hours.<br><br><b>[click]</b> And the two are coupled through the seafloor motion, which alone has 618 million unknowns for one earthquake.<br><br><b>[click]</b> So the question of this talk is: how can we generate a large amount of high-fidelity data?<br><br><b>[click]</b> Our solution is to exploit the structure of the problem. Both models are linear and time-invariant. So we compute the operators once, offline, and then the whole map from earthquake to waveforms is two consecutive block Toeplitz matrix-vector products.
+    The challenge: large-scale, high-fidelity forward simulation of the earthquake and the tsunami is expensive. For the tsunami, the ocean is discretized with more than 14 million hexahedral elements, and one simulation takes about an hour on 512 A100 GPUs.<br><br><b>[click]</b> The earthquake simulation, seismic wave propagation, is very expensive as well.<br><br><b>[click]</b> And the two are coupled through the seafloor motion, which alone has 618 million unknowns for one earthquake.<br><br><b>[click]</b> So the question of this talk is: how can we generate a large amount of high-fidelity data?<br><br><b>[click]</b> Our solution is to exploit the structure of the problem. Both models are linear and time-invariant. So we compute the operators once, offline, and then the whole map from earthquake to waveforms is two consecutive block Toeplitz matrix-vector products. And we use high-performance multi-GPU computing: with enough GPU memory the operators stay resident on the GPUs.
   </aside>
 </section>
 
@@ -192,7 +193,7 @@
 
 <!-- 13 ─────────────────────────────────────────────── SCALING -->
 <section class="slide light" data-steps="1" data-title="Scaling results" data-time="0:50">
-  <header><div class="kicker">Results</div><h2>Strong and weak scaling up to 64 GPUs</h2></header>
+  <header><div class="kicker">Results: scaling</div><h2>Strong and weak scaling up to 64 GPUs</h2></header>
   <div class="chartlegend">
     <span><i class="l o"></i>GB200 FFTMatvec</span><span><i class="l b"></i>GH200 FFTMatvec</span>
     <span><i class="l o dash"></i>GB200 PyTorch</span><span><i class="l b dash"></i>GH200 PyTorch</span><span><i class="l g dot"></i>ideal</span>
@@ -209,7 +210,7 @@
 
 <!-- 14 ─────────────────────────────────────────────── FULL CSZ -->
 <section class="slide dark" data-steps="1" data-title="Full Cascadia" data-time="0:45">
-  <header class="over"><div class="kicker">Results · full Cascadia</div><h2>Time for one earthquake, from fault slip to waveforms</h2></header>
+  <header class="over"><div class="kicker">Results: full CSZ</div><h2>Time for one earthquake, from fault slip to waveforms</h2></header>
   <div class="hero">
     <div class="heronum"><span class="n">24</span><span class="u">ms</span></div>
     <div class="herocap">on 64 GB200 GPUs</div>
@@ -234,7 +235,7 @@
 <section class="slide dark scene3d" data-steps="6" data-title="Potential earthquakes in 3D, and summary" data-time="2:10">
   <canvas id="rup3d" class="bleed" style="width:1920px;height:1080px"></canvas>
   <div class="vig"></div><div class="vig c"></div>
-  <header class="over"><div class="kicker">Results</div><h2 data-hud="title">Potential magnitude 9.1 earthquake at the Cascadia Subduction Zone</h2><div class="cap3" data-hud="phase"></div><div class="clock3" data-hud="clock"></div></header>
+  <header class="over"><div class="kicker">Results: one earthquake</div><h2 data-hud="title">Potential magnitude 9.1 earthquake at the Cascadia Subduction Zone</h2><div class="cap3" data-hud="phase"></div><div class="clock3" data-hud="clock"></div></header>
   <div class="vbar"><label data-hud="cbl"></label><div class="vb"><div class="tk"><span data-hud="cb2"></span><span data-hud="cb1"></span><span data-hud="cb0"></span></div><i></i></div></div>
   <div class="chain"><span data-k="3">Fault slip</span><b>→</b><span data-k="4">Seafloor motion</span><b>→</b><span data-k="5">Tsunami</span></div>
   <div class="tag3" data-hud="tag"></div>
@@ -262,7 +263,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=79"></script>
-<script src="scene3d.js?v=79"></script>
+<script src="deck.js?v=80"></script>
+<script src="scene3d.js?v=80"></script>
 </body>
 </html>
