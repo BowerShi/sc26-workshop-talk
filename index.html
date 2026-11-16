@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=88">
+<link rel="stylesheet" href="deck.css?v=91">
 </head>
 <body>
 <div id="stage">
@@ -16,8 +16,8 @@
     <div class="kicker">SC26 &nbsp;·&nbsp; HPC4EES Workshop &nbsp;·&nbsp; arXiv:2608.21763</div>
     <h1>Rapid Earthquake-to-Tsunami Waveform Generation</h1>
     <p class="sub">via Large-Scale Multi-GPU FFT Convolution,<br>Applied to the Cascadia Subduction Zone</p>
-    <p class="authors"><b>Bowen Shi</b>, Sreeram Venkat, Stefan Henneking, Omar Ghattas</p>
-    <p class="affil">Oden Institute for Computational Engineering and Sciences<br>The University of Texas at Austin</p>
+    <p class="authors"><b>Bowen Shi</b><sup>1</sup>, Sreeram Venkat<sup>1</sup>, Stefan Henneking<sup>1</sup>, Omar Ghattas<sup>1,2</sup></p>
+    <p class="affil"><sup>1</sup> Oden Institute for Computational Engineering and Sciences<br><sup>2</sup> Walker Department of Mechanical Engineering<br>The University of Texas at Austin</p>
   </div>
   <div class="logos-dark"><img src="assets/UTA_logo_white.svg" alt="The University of Texas at Austin"><img src="assets/OdenInstitutePrimary_white.svg" alt="Oden Institute"><img class="inv" src="assets/optimuslogo.svg" alt="OPTIMUS"></div>
   <div class="vbar"><label data-hud="cbl"></label><div class="vb"><div class="tk"><span data-hud="cb2"></span><span data-hud="cb1"></span><span data-hud="cb0"></span></div><i></i></div></div>
@@ -142,18 +142,18 @@
 <!-- 9 ─────────────────────────────────────────────── OUR PROBLEM -->
 <section class="slide light" data-steps="4" data-title="Earthquake-to-tsunami operator" data-time="1:15" data-cite="Venkat, Fernando, Henneking, Ghattas, SIAM J. Sci. Comput. 47(5), 2025 (FFTMatvec)">
   <header><div class="kicker">Our problem</div><h2>Earthquake-to-tsunami operator</h2></header>
-  <canvas data-scene="flow" data-w="1740" data-h="790" style="left:90px;top:250px"></canvas>
-  <div class="rightcol" style="left:1200px;top:118px"><img class="tex" src="assets/eq/twomv.svg?v=3" alt="" style="width:600px;height:83px;"></div>
+  <canvas data-scene="flow" data-w="1740" data-h="790" style="left:90px;top:280px"></canvas>
+  <div class="rightcol" style="left:1100px;top:56px"><img class="tex" src="assets/eq/twomvb.svg?v=1" alt="" style="width:738px;height:240px;"></div>
   <aside class="notes">
-    Now our problem. What we want is the formula at the top: q equals F q, D t, F G, s. Read it from right to left. The source s is the slip rate on the fault. F G is the earthquake operator: block Toeplitz with tall blocks, a few fault patches in, the whole seafloor out.<br><br><b>[click]</b> We apply it with exactly the five stages you just saw. Out comes the seafloor motion m.<br><br><b>[click]</b> A time derivative gives the seafloor velocity v. And v is the input of the tsunami operator F q, with wide blocks: the whole seafloor in, a few waveforms out.<br><br><b>[click]</b> The same five stages again give the waveforms q: the pressure at the sensors and the surface wave heights.<br><br><b>[click]</b> So the whole map is two consecutive block Toeplitz matrix-vector products: small in, huge in the middle, small out.
+    Now our problem. What we want is the formula at the top right: q equals F q, D t, F G, s. Read it from right to left. s is the slip rate on the fault. F G, the earthquake operator, turns it into the seafloor displacement m. The time derivative D t turns that into the seafloor velocity v. And F q, the acoustic-gravity tsunami operator, turns the velocity into the waveforms q. Below, the same thing as a picture. F G is block Toeplitz with tall blocks: a few fault patches in, the whole seafloor out.<br><br><b>[click]</b> We apply it with exactly the five stages you just saw. Out comes the seafloor motion m.<br><br><b>[click]</b> A time derivative gives the seafloor velocity v. And v is the input of the tsunami operator F q, with wide blocks: the whole seafloor in, a few waveforms out.<br><br><b>[click]</b> The same five stages again give the waveforms q: the pressure at the sensors and the surface wave heights.<br><br><b>[click]</b> So the whole map is two consecutive block Toeplitz matrix-vector products: small in, huge in the middle, small out.
   </aside>
 </section>
 
 <!-- 10 ─────────────────────────────────────────────── PARTITION -->
 <section class="slide light" data-steps="7" data-title="Many GPUs" data-time="1:10">
   <header><div class="kicker">Multi-GPU</div><h2>Many GPUs: partition across the seafloor</h2></header>
-  <canvas data-scene="part" data-w="1740" data-h="790" style="left:90px;top:250px"></canvas>
-  <div class="rightcol st" data-s="2" style="left:90px;top:340px"><img class="tex" src="assets/eq/part.svg?v=3" alt="" style="width:400px;height:115px;"></div>
+  <canvas data-scene="part" data-w="1740" data-h="790" style="left:90px;top:280px"></canvas>
+  <div class="rightcol st" data-s="2" style="left:90px;top:370px"><img class="tex" src="assets/eq/part.svg?v=3" alt="" style="width:400px;height:115px;"></div>
   <aside class="notes">
     Many GPUs. The two operators share one huge dimension, the seafloor.<br><br><b>[click]</b> So we cut only the seafloor, in the same places in every block.<br><br><b>[click]</b> Then we reindex: space outside, time inside. The shapes do not change, but the wide operator is now a row of small block Toeplitz matrices, and the tall one is a column. A row times a column is a sum of local products.<br><br><b>[click]</b> So each pair goes to its own GPU.<br><br><b>[click]</b> At run time we broadcast the small source.<br><br><b>[click]</b> Each GPU does the first matvec. Its slice of the seafloor field never leaves the GPU.<br><br><b>[click]</b> Then the second matvec.<br><br><b>[click]</b> And one reduce adds up the small outputs.
   </aside>
@@ -262,7 +262,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=88"></script>
-<script src="scene3d.js?v=88"></script>
+<script src="deck.js?v=91"></script>
+<script src="scene3d.js?v=91"></script>
 </body>
 </html>

@@ -442,3 +442,5 @@ canvas.framed.lt{border-radius:14px;box-shadow:0 8px 26px rgba(51,63,72,.15);bac
 .cite3{position:absolute;right:90px;bottom:18px;z-index:4;font-family:var(--sans);font-size:21px;color:rgba(255,255,255,.62);text-shadow:0 1px 8px rgba(0,0,0,.9)}
 
 .vbar label{white-space:pre-line;text-align:right;line-height:1.2}
+
+.authors sup,.affil sup{font-size:.62em;vertical-align:super;line-height:0}
