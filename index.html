@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=86">
+<link rel="stylesheet" href="deck.css?v=87">
 </head>
 <body>
 <div id="stage">
@@ -131,7 +131,7 @@
 
 <!-- 8 ─────────────────────────────────────────────── TOEPLITZ -->
 <section class="slide light" data-steps="6" data-title="Block Toeplitz matvec with the FFT" data-time="1:30" data-cite="Venkat, Fernando, Henneking, Ghattas, SIAM J. Sci. Comput. 47(5), 2025 (FFTMatvec)">
-  <header><div class="kicker">Structure · 2</div><h2>A block Toeplitz matvec, done with the FFT</h2></header>
+  <header><div class="kicker">Structure · 2</div><h2>FFT-based block Toeplitz matvec</h2></header>
   <canvas data-scene="toep" data-w="1780" data-h="770" style="left:70px;top:262px"></canvas>
   <div class="rightcol" style="left:1310px;top:300px"><img class="tex" src="assets/eq/mv.svg?v=3" alt="" style="width:209px;height:50px;"></div>
   <aside class="notes">
@@ -141,7 +141,7 @@
 
 <!-- 9 ─────────────────────────────────────────────── OUR PROBLEM -->
 <section class="slide light" data-steps="13" data-title="Earthquake, then tsunami: follow the vector" data-time="1:50" data-cite="Venkat, Fernando, Henneking, Ghattas, SIAM J. Sci. Comput. 47(5), 2025 (FFTMatvec)">
-  <header><div class="kicker">Our problem</div><h2>Follow one vector: the earthquake, then the tsunami</h2></header>
+  <header><div class="kicker">Our problem</div><h2>Earthquake-to-tsunami operator</h2></header>
   <canvas data-scene="flow" data-w="1740" data-h="790" style="left:90px;top:250px"></canvas>
   <div class="rightcol h13" style="left:1360px;top:300px"><img class="tex" src="assets/eq/twomv.svg?v=3" alt="" style="width:324px;height:45px;"></div>
   <aside class="notes">
@@ -262,7 +262,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=86"></script>
-<script src="scene3d.js?v=86"></script>
+<script src="deck.js?v=87"></script>
+<script src="scene3d.js?v=87"></script>
 </body>
 </html>
