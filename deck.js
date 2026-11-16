@@ -4,7 +4,7 @@ const $ = (q, el = document) => el.querySelector(q), $$ = (q, el = document) => 
 const stage = $('#stage'), slides = $$('.slide');
 const TAU = Math.PI * 2, clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), lerp = (a, b, t) => a + (b - a) * t;
 const ease = x => { x = clamp(x); return x * x * (3 - 2 * x); };
-const C = { bo: '#BF5700', bo2: '#F8971F', char: '#333F48', teal: '#00A9B7', blue: '#005F86', lime: '#D6D2C4', mute: '#6b7780', paper: '#FBFAF6' };
+const C = { bo: '#BF5700', bo2: '#F8971F', char: '#333F48', teal: '#00A9B7', blue: '#005F86', lime: '#D6D2C4', mute: '#6b7780', paper: '#FBFAF6', green: '#579D42' };
 const SANS = '"Helvetica Neue",Helvetica,Arial,sans-serif', MATH = '"LMR","Latin Modern Roman","Times New Roman",serif', SERIF = '"Charter","Iowan Old Style",Palatino,Georgia,serif';
 const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
 const rgb = (c, a = 1) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`;
@@ -578,19 +578,21 @@ function chart(el, title, series, ideal) {
   series.forEach(se => {
     const pts = se.d.map((v, i) => [X(i), Y(v)]), cls = se.fft ? 'fft' : 'base';
     s += `<g class="${cls}">`;
-    if (ideal && se.fft) s += `<path class="ln" d="M${pts[0]} L${X(3)},${Y(se.d[0] / 8)}" stroke="#9aa5ab" stroke-width="2.5" stroke-dasharray="3 7" style="stroke-width:2.5"/>`;
-    s += `<path class="ln" d="M${pts.map(p => p.join(',')).join(' L')}" stroke="${se.c}" ${se.fft ? '' : 'stroke-dasharray="14 10" style="stroke-width:3.5"'}/>`;
-    pts.forEach(p => s += se.fft ? `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="${se.c}" stroke="#fff" stroke-width="3"/>` : `<rect x="${p[0] - 8}" y="${p[1] - 8}" width="16" height="16" fill="#FBFAF6" stroke="${se.c}" stroke-width="3.5"/>`);
+    if (ideal && se.fft && !se.dia) s += `<path class="ln" d="M${pts[0]} L${X(3)},${Y(se.d[0] / 8)}" stroke="#9aa5ab" stroke-width="2.5" stroke-dasharray="3 7" style="stroke-width:2.5"/>`;
+    s += `<path class="ln" d="M${pts.map(p => p.join(',')).join(' L')}" stroke="${se.c}" ${se.fft ? (se.dia ? 'style="stroke-width:3.5"' : '') : 'stroke-dasharray="14 10" style="stroke-width:3.5"'}/>`;
+    pts.forEach(p => s += se.dia ? `<rect x="${p[0] - 7}" y="${p[1] - 7}" width="14" height="14" transform="rotate(45 ${p[0]} ${p[1]})" fill="${se.c}" stroke="#fff" stroke-width="2.5"/>` : se.fft ? `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="${se.c}" stroke="#fff" stroke-width="3"/>` : `<rect x="${p[0] - 8}" y="${p[1] - 8}" width="16" height="16" fill="#FBFAF6" stroke="${se.c}" stroke-width="3.5"/>`);
     s += `<text class="eff" x="${X(3) + 16}" y="${pts[3][1] + (se.dy || 7)}" fill="${se.c}">${se.e}</text></g>`;
   });
   el.innerHTML = s + '</svg>';
 }
 chart($('#chartStrong'), 'Strong scaling (efficiency at 64 GPUs)', [
   { d: [271.22, 136.17, 68.01, 37.51], c: C.blue, e: '90%', dy: -8 }, { d: [240.53, 122.5, 61.62, 30.91], c: C.bo, e: '97%', dy: 22 },
-  { d: [34.958, 17.776, 9.183, 5.378], c: C.blue, e: '81%', fft: 1 }, { d: [17.216, 8.737, 4.584, 2.531], c: C.bo, e: '85%', fft: 1 }], true);
+  { d: [34.958, 17.776, 9.183, 5.378], c: C.blue, e: '81%', fft: 1 }, { d: [17.216, 8.737, 4.584, 2.531], c: C.bo, e: '85%', fft: 1, dy: 12 },
+  { d: [17.271, 8.947, 4.974, 3.490], c: C.green, e: '62%', fft: 1, dia: 1, dy: 5 }], true);
 chart($('#chartWeak'), 'Weak scaling (efficiency at 64 GPUs)', [
   { d: [251.13, 251.36, 251.28, 251.4], c: C.blue, e: '99.9%', dy: 24 }, { d: [261.63, 261.76, 262.0, 262.44], c: C.bo, e: '99.7%', dy: -10 },
-  { d: [22.151, 22.241, 22.435, 23.293], c: C.blue, e: '95%', fft: 1 }, { d: [11.573, 11.801, 11.835, 12.077], c: C.bo, e: '96%', fft: 1 }], false);
+  { d: [22.151, 22.241, 22.435, 23.293], c: C.blue, e: '95%', fft: 1 }, { d: [11.573, 11.801, 11.835, 12.077], c: C.bo, e: '96%', fft: 1, dy: 24 },
+  { d: [11.867, 11.975, 12.304, 13.079], c: C.green, e: '91%', fft: 1, dia: 1, dy: 0 }], false);
 
 /* FK receivers */
 (() => { const gq = $('.recv'); if (!gq) return; let s = ''; for (let i = 0; i < 26; i++) s += `<circle cx="${22 + i * 26.2}" cy="120" r="6.5"/>`; gq.innerHTML = s; })();

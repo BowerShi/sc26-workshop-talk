@@ -444,3 +444,5 @@ canvas.framed.lt{border-radius:14px;box-shadow:0 8px 26px rgba(51,63,72,.15);bac
 .vbar label{white-space:pre-line;text-align:right;line-height:1.2}
 
 .authors sup,.affil sup{font-size:.62em;vertical-align:super;line-height:0}
+
+.chartlegend i.l.gr{border-color:var(--green)} .cG{color:var(--green)} .chartlegend{gap:30px}

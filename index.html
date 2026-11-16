@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=95">
+<link rel="stylesheet" href="deck.css?v=97">
 </head>
 <body>
 <div id="stage">
@@ -182,11 +182,11 @@
       <ul class="nums"><li>fault discretized by <b>963</b> triangular subfaults</li><li><b>2,416,530</b> seafloor points, <b>64</b> waveform locations</li><li><b>256</b> time steps, double precision</li><li>the two operators need <b>9.45 TiB</b> of GPU memory</li></ul></li>
     <li><b class="cO">Our implementation:</b> C++ and CUDA, FFT-based matrix-vector product (FFTMatvec)</li>
     <li><b>Baseline:</b> PyTorch <code>conv_transpose1d</code>, the same convolution in the time domain</li>
-    <li><b>Machines:</b> TACC Vista, up to 64 GPUs
-      <ul><li>GH200 partition: 96 GiB per GPU, one GPU per node, InfiniBand</li><li>GB200 partition: 184 GiB per GPU, one NVL72 domain</li></ul></li>
+    <li><b>Machines:</b> TACC Vista and Horizon, up to 64 GPUs
+      <ul><li>Vista GH200: 96 GiB per GPU, one GPU per node, InfiniBand</li><li>Vista GB200: 184 GiB per GPU, one NVL72 domain</li><li>Horizon GB200: NVL4 nodes, InfiniBand between nodes</li></ul></li>
   </ul>
   <aside class="notes">
-    The full Cascadia setting: 963 subfaults, 2.4 million seafloor points, 64 waveform locations, 256 time steps. The two operators need 9.45 tebibytes of GPU memory. Our implementation is FFTMatvec, in C++ and CUDA. The baseline is PyTorch's conv-transpose-1d: the same convolution in the time domain. We run on TACC's Vista, on the GH200 and GB200 partitions, with up to 64 GPUs.
+    The full Cascadia setting: 963 subfaults, 2.4 million seafloor points, 64 waveform locations, 256 time steps. The two operators need 9.45 tebibytes of GPU memory. Our implementation is FFTMatvec, in C++ and CUDA. The baseline is PyTorch's conv-transpose-1d: the same convolution in the time domain. We run on TACC's Vista, on the GH200 and GB200 partitions, and on the GB200 nodes of Horizon, with up to 64 GPUs.
   </aside>
 </section>
 
@@ -194,15 +194,15 @@
 <section class="slide light" data-steps="0" data-title="Scaling results" data-time="0:20">
   <header><div class="kicker">Results: scaling</div><h2>Strong and weak scaling up to 64 GPUs</h2></header>
   <div class="chartlegend">
-    <span><i class="l o"></i>GB200 FFTMatvec</span><span><i class="l b"></i>GH200 FFTMatvec</span>
-    <span><i class="l o dash"></i>GB200 PyTorch</span><span><i class="l b dash"></i>GH200 PyTorch</span><span><i class="l g dot"></i>ideal</span>
+    <b>FFTMatvec:</b><span><i class="l o"></i>Vista GB200</span><span><i class="l b"></i>Vista GH200</span><span><i class="l gr"></i>Horizon GB200</span>
+    <b style="margin-left:30px">PyTorch:</b><span><i class="l o dash"></i>Vista GB200</span><span><i class="l b dash"></i>Vista GH200</span><span style="margin-left:30px"><i class="l g dot"></i>ideal</span>
   </div>
   <div id="chartStrong" class="chart" style="left:90px;top:330px"></div>
   <div id="chartWeak" class="chart" style="left:1000px;top:330px"></div>
-  <div class="chartcap" style="left:90px"><b>Strong scaling.</b> 60 subfaults, 4 outputs, full 2.4 M seafloor grid.<span> Efficiency at 64 GPUs: <b class="cO">85%</b> and <b class="cB">81%</b>.</span></div>
-  <div class="chartcap" style="left:1000px"><b>Weak scaling.</b> 480 subfaults, 32 outputs, 37,758 seafloor points per GPU.<span> Efficiency at 64 GPUs: <b class="cO">95.8%</b> and <b class="cB">95.1%</b>.</span></div>
+  <div class="chartcap" style="left:90px"><b>Strong scaling.</b> 60 subfaults, 4 outputs, full 2.4 M seafloor grid.<span> Efficiency at 64 GPUs: <b class="cO">85%</b>, <b class="cB">81%</b>, <b class="cG">62%</b>.</span></div>
+  <div class="chartcap" style="left:1000px"><b>Weak scaling.</b> 480 subfaults, 32 outputs, 37,758 seafloor points per GPU.<span> Efficiency at 64 GPUs: <b class="cO">95.8%</b>, <b class="cB">95.1%</b>, <b class="cG">90.7%</b>.</span></div>
   <aside class="notes">
-    We scale our results up to 64 GPUs, on both GH200 and GB200. Strong scaling efficiency is above 80 percent, weak scaling about 95 percent, and FFTMatvec stays well below the PyTorch baseline everywhere.
+    We scale up to 64 GPUs on three systems: Vista GH200, Vista GB200, and the GB200 nodes of Horizon. On Vista, strong scaling efficiency is above 80 percent and weak scaling about 95 percent. On Horizon the times match Vista GB200 at small counts; at 64 GPUs the strong scaling efficiency drops to 62 percent, weak scaling stays at 91 percent. FFTMatvec stays well below the PyTorch baseline everywhere.
   </aside>
 </section>
 
@@ -262,7 +262,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=95"></script>
-<script src="scene3d.js?v=95"></script>
+<script src="deck.js?v=97"></script>
+<script src="scene3d.js?v=97"></script>
 </body>
 </html>
