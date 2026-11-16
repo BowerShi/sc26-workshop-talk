@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=101">
+<link rel="stylesheet" href="deck.css?v=102">
 </head>
 <body>
 <div id="stage">
@@ -208,7 +208,7 @@
 
 
 <!-- 14 ─────────────────────────────────────────────── FULL CSZ -->
-<section class="slide dark" data-steps="1" data-title="Full Cascadia" data-time="0:25">
+<section class="slide dark" data-steps="0" data-title="Full Cascadia" data-time="0:25">
   <header class="over"><div class="kicker">Results: full CSZ</div><h2>Time for one earthquake, from fault slip to waveforms</h2></header>
   <div class="hero">
     <div class="heronum"><span class="n">24</span><span class="u">ms</span></div>
@@ -220,13 +220,13 @@
     <li>64 waveforms, 256 time steps of 1 s</li>
     <li>PyTorch <code>conv_transpose1d</code>: 522 ms, <b>21.8×</b> slower</li>
   </ul>
-  <div class="race st" data-s="1">
+  <div class="race static">
     <div class="racetitle">Time to generate 10,000 earthquakes</div>
     <div class="lane"><label>FFTMatvec</label><div class="track"><div class="fill o" style="--w:4.6%;--d:.5s"></div></div><span>4 min</span></div>
     <div class="lane"><label>PyTorch</label><div class="track"><div class="fill g" style="--w:100%;--d:8.7s"></div></div><span>87 min</span></div>
   </div>
   <aside class="notes">
-    For the full problem on 64 GB200 GPUs, one earthquake takes 24 milliseconds, from fault slip to waveforms. PyTorch needs 522 milliseconds: 21.8 times slower.<br><br><b>[click]</b> Ten thousand earthquakes take four minutes instead of 87.
+    For the full problem on 64 GB200 GPUs, one earthquake takes 24 milliseconds, from fault slip to waveforms. PyTorch needs 522 milliseconds: 21.8 times slower. Ten thousand earthquakes take four minutes instead of 87.
   </aside>
 </section>
 
@@ -262,7 +262,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=101"></script>
-<script src="scene3d.js?v=101"></script>
+<script src="deck.js?v=102"></script>
+<script src="scene3d.js?v=102"></script>
 </body>
 </html>
