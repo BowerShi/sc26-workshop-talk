@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Rapid Earthquake-to-Tsunami Waveform Generation · SC26</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="deck.css?v=91">
+<link rel="stylesheet" href="deck.css?v=92">
 </head>
 <body>
 <div id="stage">
@@ -163,14 +163,14 @@
 <section class="slide light" data-steps="2" data-title="Computing the two operators offline" data-time="0:35" data-cite="Henneking, Venkat, Ghattas, J. Comput. Phys. 552, 2026 (adjoints) &nbsp;·&nbsp; Zhu, Rivera, Geophys. J. Int. 148, 2002 (frequency–wavenumber)">
   <header><div class="kicker">Offline, once</div><h2>Computing two Toeplitz operators offline</h2></header>
   <ul class="bm wide" style="top:300px">
-    <li>2.4 million seafloor points, but only 963 fault patches and 196 waveforms (175 sensors + 21 QoI)</li>
-    <li class="st" data-s="1"><b class="cT">Tsunami operator:</b> adjoint solves, one per waveform, 196 in total
+    <li>2.4 million seafloor points, but only 963 fault patches and 64 waveforms</li>
+    <li class="st" data-s="1"><b class="cT">Tsunami operator:</b> adjoint solves, one per waveform, 64 in total
       <ul><li>forward solves would mean 2.4 million tsunami solves</li></ul></li>
     <li class="st" data-s="2"><b class="cO">Earthquake operator:</b> frequency–wavenumber method for a layered Earth, accelerated on GPUs
       <ul><li>one impulse at a fault patch gives the Green’s functions at all seafloor points</li></ul></li>
   </ul>
   <aside class="notes">
-    Where do the operators come from? There are 2.4 million seafloor points, but only 963 fault patches and 196 waveforms.<br><br><b>[click]</b> For the tsunami operator we use adjoint solves: one per waveform, instead of 2.4 million forward solves.<br><br><b>[click]</b> For the earthquake operator we use the frequency-wavenumber method for a layered Earth, accelerated on GPUs: one impulse at a fault patch gives the Green's functions at all seafloor points.
+    Where do the operators come from? There are 2.4 million seafloor points, but only 963 fault patches and 64 waveforms.<br><br><b>[click]</b> For the tsunami operator we use adjoint solves: one per waveform, instead of 2.4 million forward solves.<br><br><b>[click]</b> For the earthquake operator we use the frequency-wavenumber method for a layered Earth, accelerated on GPUs: one impulse at a fault patch gives the Green's functions at all seafloor points.
   </aside>
 </section>
 
@@ -262,7 +262,7 @@
 <div id="notes" hidden><div class="nhead"><span id="nslide"></span><span id="ntimer">00:00</span></div><div id="ntext"></div></div>
 <div id="help" hidden>→ / Space next &nbsp;·&nbsp; ← back &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P presenter window &nbsp;·&nbsp; F fullscreen &nbsp;·&nbsp; R reset timer &nbsp;·&nbsp; Home / End &nbsp;·&nbsp; type a number + Enter to jump</div>
 
-<script src="deck.js?v=91"></script>
-<script src="scene3d.js?v=91"></script>
+<script src="deck.js?v=92"></script>
+<script src="scene3d.js?v=92"></script>
 </body>
 </html>
